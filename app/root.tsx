@@ -7,6 +7,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
+import GlobalStyles from "./styles/Globalstyles";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -20,8 +21,15 @@ export default function App() {
       <head>
         <Meta />
         <Links />
+        {typeof document === "undefined" ? "__STYLES__" : null}
       </head>
       <body>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@200;300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+        <GlobalStyles />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
