@@ -1,0 +1,7 @@
+version: "2"
+services:
+  newfronted:
+    build: .
+    ports:
+      - "127.0.0.1:10000:3000"
+    container_name: newfrontend
