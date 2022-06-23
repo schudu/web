@@ -14,7 +14,7 @@ export default function Header() {
 
 const HeaderContainer = styled("header")`
   width: 100vw;
-  height: 80vh;
+  height: 100vh;
   background-image: url("/images/background_v1_wave.png");
   background-position-y: 100%;
   background-repeat: no-repeat;

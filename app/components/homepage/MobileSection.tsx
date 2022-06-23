@@ -5,7 +5,7 @@ import { InnerLayout } from "~/styles/Layouts";
 
 export default function MobileSection() {
   return (
-    <MobileSectionContainer>
+    <MobileSectionContainer id="mobil">
       <InnerLayout>
         <MobileContainer>
           <LeftContent>

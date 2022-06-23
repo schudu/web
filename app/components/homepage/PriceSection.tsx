@@ -5,7 +5,7 @@ import PriceCard from "./PriceCard";
 
 export default function PriceSection() {
   return (
-    <PriceSectionContainer>
+    <PriceSectionContainer id="pricing">
       <InnerLayout>
         <PriceContainer>
           <PriceCard
