@@ -14,7 +14,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Install Dependencies
-      run: sudo apt update && sudo apt install -y curl
     - name: Notify Update Service
       run: curl -X GET https://kessaft.tk/ci/deploy?name=schudu&path=schudu/web&secret=${{ secrets.AUTH_TOKEN }}
