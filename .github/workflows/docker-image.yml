@@ -1,0 +1,20 @@
+name: Automatic Deployment
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install Dependencies
+      run: apt update && apt install -y curl
+    - name: Notify Update Service
+      run: curl -X GET https://kessaft.tk/ci/deploy?name=schudu&path=schudu/web&secret=${{ secrets.AUTH_TOKEN }}
