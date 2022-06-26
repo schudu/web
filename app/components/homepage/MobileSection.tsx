@@ -44,7 +44,7 @@ const MobileSectionContainer = styled("section")`
 `;
 
 const MobileContainer = styled("div")`
-  background-color: var(--white);
+  /* background-color: var(--white); */
   border-radius: 50px;
   display: flex;
   flex-wrap: wrap-reverse;

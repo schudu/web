@@ -35,6 +35,7 @@ const NavbarWrapper = styled("div")`
   width: 100%;
   display: grid;
   place-items: center;
+  height: 80px;
 `;
 
 const NavbarContainer = styled("nav")`
@@ -44,6 +45,7 @@ const NavbarContainer = styled("nav")`
   width: 80%;
   margin-top: 40px;
   align-items: center;
+  z-index: 1000;
 `;
 
 const NavLogoContainer = styled(Link)`
