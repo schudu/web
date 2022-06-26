@@ -22,7 +22,7 @@ export default function Footer() {
           </FooterLinkList>
         </LeftContent>
         <RightContent>
-          <NavLogo src="/images/logo.svg" alt="LOGO" />
+          <NavLogo src="/images/Logo.svg" alt="LOGO" />
           <NavName>SCHUDU</NavName>
         </RightContent>
       </FooterContainer>

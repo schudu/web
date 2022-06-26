@@ -8,7 +8,7 @@ export default function NavBar() {
     <NavbarWrapper>
       <NavbarContainer>
         <NavLogoContainer to="">
-          <NavLogo src="/images/logo.svg" alt="LOGO" />
+          <NavLogo src="/images/Logo.svg" alt="LOGO" />
           <NavName>SCHUDU</NavName>
         </NavLogoContainer>
         <NavItemList>

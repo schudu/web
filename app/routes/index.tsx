@@ -6,6 +6,13 @@ import Footer from "~/components/homepage/Footer";
 import MobileSection from "~/components/homepage/MobileSection";
 import PriceSection from "~/components/homepage/PriceSection";
 
+export function meta() {
+  return {
+    "og:type": "homepage",
+    "twitter:card": "summary_larger_image",
+  };
+}
+
 export default function Index() {
   return (
     <>
