@@ -14,7 +14,7 @@ export const meta: MetaFunction = () => ({
   title: "Schudu",
   "og:title": `Schudu`,
   viewport: "width=device-width,initial-scale=1",
-  "og:url": "https://new.schudu.com/",
+  "og:url": "/",
   "og:site_name": "Schudu",
   "og:image": "/images/logo_gelb.png",
   description: `Your Homework Planner to manage Homework, Dates and Learningmaterial for the whole Class!`,

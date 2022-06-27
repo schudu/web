@@ -8,7 +8,7 @@ export default function NavBar() {
     <NavbarWrapper>
       <NavbarContainer>
         <NavLogoContainer to="">
-          <NavLogo src="/images/Logo.svg" alt="LOGO" />
+          <NavLogo src="/images/logo.svg" alt="LOGO" />
           <NavName>SCHUDU</NavName>
         </NavLogoContainer>
         <NavItemList>
@@ -25,7 +25,9 @@ export default function NavBar() {
             <Link to="#pricing">Pricing</Link>
           </li>
         </NavItemList>
-        <Button>Login</Button>
+        <Button>
+          <a href="https://schudu.com/login">Login</a>
+        </Button>
       </NavbarContainer>
     </NavbarWrapper>
   );

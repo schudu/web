@@ -14,6 +14,9 @@ export default function PriceSection() {
             timespan="/month"
             description="Get All Necessary Features Without Paying A Cent!"
             button="Get Started"
+            onClick={() => {
+              console.log("hi");
+            }}
             features={[
               {
                 name: "Homeworks",
@@ -43,6 +46,9 @@ export default function PriceSection() {
             timespan="/month"
             description="Go Premium and benefit from extra features!"
             button="Go Premium"
+            onClick={() => {
+              console.log("hi");
+            }}
             features={[
               {
                 name: "Homeworks",

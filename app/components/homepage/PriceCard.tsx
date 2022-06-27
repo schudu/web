@@ -10,6 +10,7 @@ interface Props {
   description: string;
   button: string;
   features: Array<Feature>;
+  onClick: React.MouseEventHandler;
 }
 
 interface Feature {
@@ -24,6 +25,7 @@ export default function PriceCard({
   description,
   button,
   features,
+  onClick,
 }: Props) {
   return (
     <CardContainer>
@@ -31,7 +33,7 @@ export default function PriceCard({
       <Price>${price}</Price>
       <TimeSpan>{timespan}</TimeSpan>
       <Description>{description}</Description>
-      <Button>{button}</Button>
+      <Button onClick={onClick}>{button}</Button>
       <FeatureList>
         {features.map(({ name, available }) => (
           <FeatureItem key={name}>
