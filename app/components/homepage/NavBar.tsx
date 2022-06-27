@@ -25,7 +25,9 @@ export default function NavBar() {
             <Link to="#pricing">Pricing</Link>
           </li>
         </NavItemList>
-        <Button>Login</Button>
+        <Button>
+          <a href="https://schudu.com/login">Login</a>
+        </Button>
       </NavbarContainer>
     </NavbarWrapper>
   );

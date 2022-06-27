@@ -8,10 +8,14 @@ export default function Footer() {
         <LeftContent>
           <FooterLinkList>
             <li>
-              <FooterListItemLink to="">Login</FooterListItemLink>
+              <FooterListItemLink to="">
+                <a href="https://schudu.com/login">Login</a>
+              </FooterListItemLink>
             </li>
             <li>
-              <FooterListItemLink to="">Register</FooterListItemLink>
+              <FooterListItemLink to="">
+                <a href="https://schudu.com/register">Register</a>
+              </FooterListItemLink>
             </li>
             <li>
               <FooterListItemLink to="">Connect With Us</FooterListItemLink>

@@ -8,7 +8,7 @@ import PriceSection from "~/components/homepage/PriceSection";
 
 export function meta() {
   return {
-    "og:type": "homepage",
+    "og:type": "website",
     "twitter:card": "summary_larger_image",
   };
 }
