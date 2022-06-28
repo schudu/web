@@ -5,48 +5,44 @@ import { InnerLayout } from "~/styles/Layouts";
 
 export default function MobileSection() {
   return (
-    <MobileSectionContainer id="mobile">
-      <InnerLayout>
-        <MobileContainer>
-          <LeftContent>
-            <PhoneImage src="/images/phone.png" />
-          </LeftContent>
-          <RightContent>
-            <GooglePlayContainer>
-              <FaGooglePlay size={50} />
-              <StoreInfos>
-                <h4>Google Play</h4>
-                <h3>
-                  4.8<CommingSoon>(Comming Soon)</CommingSoon>
-                </h3>
-              </StoreInfos>
-            </GooglePlayContainer>
-            <AppStoreContainer>
-              <FaAppStoreIos size={50} />
-              <StoreInfos>
-                <h4>Apple App Store</h4>
-                <h3>
-                  4.9<CommingSoon>(Comming soon)</CommingSoon>
-                </h3>
-              </StoreInfos>
-            </AppStoreContainer>
-          </RightContent>
-        </MobileContainer>
-      </InnerLayout>
-    </MobileSectionContainer>
+    <InnerLayout>
+      <MobileContainer id="mobile">
+        <LeftContent>
+          <PhoneImage src="/images/phone.png" />
+        </LeftContent>
+        <RightContent>
+          <GooglePlayContainer>
+            <FaGooglePlay size={50} />
+            <StoreInfos>
+              <h4>Google Play</h4>
+              <h3>
+                4.8<CommingSoon>(Comming Soon)</CommingSoon>
+              </h3>
+            </StoreInfos>
+          </GooglePlayContainer>
+          <AppStoreContainer>
+            <FaAppStoreIos size={50} />
+            <StoreInfos>
+              <h4>Apple App Store</h4>
+              <h3>
+                4.9<CommingSoon>(Comming soon)</CommingSoon>
+              </h3>
+            </StoreInfos>
+          </AppStoreContainer>
+        </RightContent>
+      </MobileContainer>
+    </InnerLayout>
   );
 }
 
-const MobileSectionContainer = styled("section")``;
-
-const MobileContainer = styled("div")`
-  background-color: var(--white);
+const MobileContainer = styled("section")`
+  /* background-color: var(--white);
   border-radius: 50px;
+  padding: 2rem 2rem 0 2rem;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
   display: flex;
   flex-wrap: wrap-reverse;
   justify-content: center;
-  padding: 2rem 2rem 0 2rem;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 `;
 
 const LeftContent = styled("div")`

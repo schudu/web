@@ -1,94 +1,50 @@
 import styled from "styled-components";
 
 import { InnerLayout } from "~/styles/Layouts";
+import { SecondaryHeading, SubHeading } from "~/styles/Globalstyles";
 
 export default function MobileSection() {
   return (
-    <AboutSectionContainer id="about">
-      <InnerLayout>
-        <MobileContainer>
-          <LeftContent>
-            <PhoneImage src="/images/phone.png" />
-          </LeftContent>
-          <RightContent>
-            <GooglePlayContainer>
-              <FaGooglePlay size={50} />
-              <StoreInfos>
-                <h4>Google Play</h4>
-                <h3>
-                  4.8<CommingSoon>(Comming Soon)</CommingSoon>
-                </h3>
-              </StoreInfos>
-            </GooglePlayContainer>
-            <AppStoreContainer>
-              <FaAppStoreIos size={50} />
-              <StoreInfos>
-                <h4>Apple App Store</h4>
-                <h3>
-                  4.9<CommingSoon>(Comming soon)</CommingSoon>
-                </h3>
-              </StoreInfos>
-            </AppStoreContainer>
-          </RightContent>
-        </MobileContainer>
-      </InnerLayout>
-    </AboutSectionContainer>
+    <InnerLayout>
+      <AboutContainer id="about">
+        <LeftContent>
+          <SecondaryHeading>About Us</SecondaryHeading>
+          <SubHeading>
+            I am a Student who often forgets Homeworks and other Dates. In my
+            School we use multiple different Platforms to manage the Documents
+            and Homework submissions. So I wanted something where everything is
+            in One Place so that I can keep the overview easily.
+          </SubHeading>
+        </LeftContent>
+        <RightContent>
+          <Image src="/images/booking.png" />
+        </RightContent>
+      </AboutContainer>
+    </InnerLayout>
   );
 }
 
-const AboutSectionContainer = styled("section")``;
-
-const MobileContainer = styled("div")`
-  /* background-color: var(--white); */
+const AboutContainer = styled("section")`
+  /* background-color: var(--white);
   border-radius: 50px;
-  display: flex;
-  flex-wrap: wrap-reverse;
-  justify-content: center;
   padding: 2rem 2rem 0 2rem;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-`;
-
-const LeftContent = styled("div")`
-  overflow: hidden;
-  max-height: 430px;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25)); */
   display: grid;
-  place-items: center;
-  min-height: 400px;
-
-  @media screen and (max-width: 1060px) {
-    height: 40vh;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  grid-gap: 2rem;
+  @media screen and (max-width: 845px) {
+    grid-template-columns: repeat(1, 1fr);
   }
 `;
+
+const LeftContent = styled("div")``;
 
 const RightContent = styled("div")`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  place-items: center;
 `;
 
-const PhoneImage = styled("img")`
-  @media screen and (max-width: 1060px) {
-    width: 100%;
-  }
-`;
-
-const GooglePlayContainer = styled("div")`
-  display: flex;
-  flex-wrap: nowrap;
-  margin-bottom: 1rem;
-`;
-
-const AppStoreContainer = styled("div")`
-  display: flex;
-  flex-wrap: nowrap;
-  margin-top: 1rem;
-`;
-
-const CommingSoon = styled("small")`
-  font-weight: 600;
-  font-size: 0.8rem;
-`;
-
-const StoreInfos = styled("div")`
-  margin-left: 1rem;
+const Image = styled("img")`
+  width: 100%;
 `;

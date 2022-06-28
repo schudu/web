@@ -16,6 +16,7 @@ export default function Header() {
 const HeaderContainer = styled("header")`
   width: 100vw;
   height: 100%;
+  padding-bottom: 8rem;
 `;
 
 const Background = styled("div")`

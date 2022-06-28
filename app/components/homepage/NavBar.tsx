@@ -25,10 +25,10 @@ export default function NavBar() {
             <NavLink to="/">Home</NavLink>
           </NavListItem>
           <NavListItem>
-            <NavLink to="#mobile">Mobile</NavLink>
+            <NavLink to="#about">About Us</NavLink>
           </NavListItem>
           <NavListItem>
-            <NavLink to="/">Contact</NavLink>
+            <NavLink to="#mobile">Mobile</NavLink>
           </NavListItem>
           <NavListItem>
             <NavLink to="#pricing">Pricing</NavLink>

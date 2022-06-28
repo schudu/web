@@ -4,6 +4,7 @@ import { OuterLayout } from "~/styles/Layouts";
 import Header from "~/components/homepage/Header";
 import Footer from "~/components/homepage/Footer";
 import MobileSection from "~/components/homepage/MobileSection";
+import AboutSection from "~/components/homepage/AboutSection";
 import PriceSection from "~/components/homepage/PriceSection";
 
 export function meta() {
@@ -19,6 +20,7 @@ export default function Index() {
       <Header />
       <OuterLayout>
         <main>
+          <AboutSection />
           <MobileSection />
           <PriceSection />
         </main>
