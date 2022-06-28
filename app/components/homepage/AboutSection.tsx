@@ -1,11 +1,10 @@
 import styled from "styled-components";
-import { FaGooglePlay, FaAppStoreIos } from "react-icons/fa";
 
 import { InnerLayout } from "~/styles/Layouts";
 
 export default function MobileSection() {
   return (
-    <MobileSectionContainer id="mobile">
+    <AboutSectionContainer id="about">
       <InnerLayout>
         <MobileContainer>
           <LeftContent>
@@ -33,14 +32,14 @@ export default function MobileSection() {
           </RightContent>
         </MobileContainer>
       </InnerLayout>
-    </MobileSectionContainer>
+    </AboutSectionContainer>
   );
 }
 
-const MobileSectionContainer = styled("section")``;
+const AboutSectionContainer = styled("section")``;
 
 const MobileContainer = styled("div")`
-  background-color: var(--white);
+  /* background-color: var(--white); */
   border-radius: 50px;
   display: flex;
   flex-wrap: wrap-reverse;

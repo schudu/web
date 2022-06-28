@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const OuterLayout = styled.div`
   padding: 0 18rem;
 
-  @media screen and (max-width: 1100px) {
+  @media screen and (max-width: 1270px) {
     padding: 0 10rem;
   }
 

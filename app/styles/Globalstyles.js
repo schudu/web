@@ -20,6 +20,10 @@ const GlobalStyles = createGlobalStyle`
     text-decoration: none;
   }
 
+  html{
+    scroll-behavior: smooth;
+  }
+
   body{
     background-color: var(--neutral-light);
     color: var(--black);
