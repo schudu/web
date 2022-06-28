@@ -1,18 +1,22 @@
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
 import { SubHeading, Button } from "~/styles/Globalstyles";
 
+export let handle = {
+  i18n: "homepage",
+};
+
 export default function HeaderContent() {
+  let { t } = useTranslation("homepage");
   return (
     <HeaderContainer>
       <LeftContent>
         <LeftTextContainer>
           <Heading>
-            <BrandName>SCHUDU</BrandName> for You
+            <BrandName>SCHUDU</BrandName> {t("slogan")}
           </Heading>
-          <SubHeading>
-            Your App for managing your Homework and Dates!
-          </SubHeading>
+          <SubHeading>{t("slogan-paragraph")}</SubHeading>
           <Button>Get Started</Button>
         </LeftTextContainer>
       </LeftContent>

@@ -1,20 +1,21 @@
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
 import { InnerLayout } from "~/styles/Layouts";
 import { SecondaryHeading, SubHeading } from "~/styles/Globalstyles";
 
+export let handle = {
+  i18n: "homepage",
+};
+
 export default function MobileSection() {
+  let { t } = useTranslation("homepage");
   return (
     <InnerLayout>
       <AboutContainer id="about">
         <LeftContent>
-          <SecondaryHeading>About Us</SecondaryHeading>
-          <SubHeading>
-            I am a Student who often forgets Homeworks and other Dates. In my
-            School we use multiple different Platforms to manage the Documents
-            and Homework submissions. So I wanted something where everything is
-            in One Place so that I can keep the overview easily.
-          </SubHeading>
+          <SecondaryHeading>{t("about-us.heading")}</SecondaryHeading>
+          <SubHeading>{t("about-us.paragraph")}</SubHeading>
         </LeftContent>
         <RightContent>
           <Image src="/images/booking.png" />
@@ -38,7 +39,11 @@ const AboutContainer = styled("section")`
   }
 `;
 
-const LeftContent = styled("div")``;
+const LeftContent = styled("div")`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+`;
 
 const RightContent = styled("div")`
   display: grid;

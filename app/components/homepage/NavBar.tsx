@@ -1,15 +1,21 @@
-import { useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useState } from "react";
 import { Link } from "@remix-run/react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import styled from "styled-components";
 
 import { Button } from "~/styles/Globalstyles";
 
+export let handle = {
+  i18n: "homepage",
+};
+
 export default function NavBar() {
   const [click, setClick] = useState(false);
 
   const handleClick = () => setClick(!click);
 
+  let { t } = useTranslation("homepage");
   return (
     <NavbarWrapper>
       <NavbarContainer>
@@ -22,13 +28,13 @@ export default function NavBar() {
         </MobileIcon>
         <NavItemList onClick={handleClick} click={click}>
           <NavListItem>
-            <NavLink to="/">Home</NavLink>
+            <NavLink to="/">{t("home")}</NavLink>
           </NavListItem>
           <NavListItem>
-            <NavLink to="#about">About Us</NavLink>
+            <NavLink to="#about">{t("about-us.heading")}</NavLink>
           </NavListItem>
           <NavListItem>
-            <NavLink to="#mobile">Mobile</NavLink>
+            <NavLink to="#mobile">{t("mobile.heading")}</NavLink>
           </NavListItem>
           <NavListItem>
             <NavLink to="#pricing">Pricing</NavLink>
@@ -113,6 +119,7 @@ const NavItemList = styled("ul")`
 `;
 
 const NavListItem = styled.li`
+  transition: all 0.2s ease-in-out;
   &:hover {
     transform: scale(1.05);
     filter: brightness(97%);
