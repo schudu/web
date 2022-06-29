@@ -1,0 +1,38 @@
+{
+  "home": "Übersicht",
+
+  "slogan": "für Dich",
+  "slogan-paragraph": "Deine App zur Verwaltung deiner Hausaufgaben und Termine!",
+
+  "about-us": {
+    "heading": "Über Uns",
+    "paragraph": "Ich bin ein Schüler, der oft Hausaufgaben und andere Termine vergisst. In meiner Schule verwenden wir mehrere verschiedene Plattformen, um die Dokumente und Hausaufgaben zu verwalten. Ich wollte also etwas, wo alles an einem Ort ist, damit ich leicht den Überblick behalten kann."
+  },
+
+  "mobile": {
+    "heading": "Handy",
+    "comming-soon": "Kommt bald"
+  },
+
+  "pricing": {
+    "heading": "Kosten",
+
+    "month": "monat",
+
+    "quiz": "Quizzes",
+    "homework": "Hausaufgaben",
+    "calendar": "Kalendar",
+    "submithw": "Hausaufgaben abgeben",
+    "filestorage": "Datei Speicher",
+    "no-ads": "keine Werbung",
+
+    "free": {
+      "name": "Kostenlos",
+      "description": "Erhalten Sie alle notwendigen Funktionen, ohne einen Cent zu bezahlen!"
+    },
+    "premium": {
+      "name": "Premium",
+      "description": "Wählen Sie Premium und profitieren Sie von zusätzlichen Funktionen!"
+    }
+  }
+}

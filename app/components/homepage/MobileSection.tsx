@@ -1,56 +1,54 @@
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { FaGooglePlay, FaAppStoreIos } from "react-icons/fa";
 
 import { InnerLayout } from "~/styles/Layouts";
 
+export let handle = {
+  i18n: "homepage",
+};
+
 export default function MobileSection() {
+  let { t } = useTranslation("homepage");
   return (
-    <MobileSectionContainer id="mobil">
-      <InnerLayout>
-        <MobileContainer>
-          <LeftContent>
-            <PhoneImage src="/images/phone.png" />
-          </LeftContent>
-          <RightContent>
-            <GooglePlayContainer>
-              <FaGooglePlay size={50} />
-              <StoreInfos>
-                <h4>Google Play</h4>
-                <h3>
-                  4.8<CommingSoon>(Comming Soon)</CommingSoon>
-                </h3>
-              </StoreInfos>
-            </GooglePlayContainer>
-            <AppStoreContainer>
-              <FaAppStoreIos size={50} />
-              <StoreInfos>
-                <h4>Apple App Store</h4>
-                <h3>
-                  4.9<CommingSoon>(Comming soon)</CommingSoon>
-                </h3>
-              </StoreInfos>
-            </AppStoreContainer>
-          </RightContent>
-        </MobileContainer>
-      </InnerLayout>
-    </MobileSectionContainer>
+    <InnerLayout>
+      <MobileContainer id="mobile">
+        <LeftContent>
+          <PhoneImage src="/images/phone.png" />
+        </LeftContent>
+        <RightContent>
+          <GooglePlayContainer>
+            <FaGooglePlay size={50} />
+            <StoreInfos>
+              <h4>Google Play</h4>
+              <h3>
+                4.8<CommingSoon> ({t("mobile.comming-soon")})</CommingSoon>
+              </h3>
+            </StoreInfos>
+          </GooglePlayContainer>
+          <AppStoreContainer>
+            <FaAppStoreIos size={50} />
+            <StoreInfos>
+              <h4>Apple App Store</h4>
+              <h3>
+                4.9<CommingSoon> ({t("mobile.comming-soon")})</CommingSoon>
+              </h3>
+            </StoreInfos>
+          </AppStoreContainer>
+        </RightContent>
+      </MobileContainer>
+    </InnerLayout>
   );
 }
 
-const MobileSectionContainer = styled("section")`
-  @media screen and (max-width: 1160px) {
-    margin-top: 80px;
-  }
-`;
-
-const MobileContainer = styled("div")`
-  /* background-color: var(--white); */
-  border-radius: 50px;
-  display: flex;
-  flex-wrap: wrap-reverse;
+const MobileContainer = styled("section")`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   justify-content: center;
-  padding: 2rem 2rem 0 2rem;
-  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  grid-gap: 2rem;
+  @media screen and (max-width: 845px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
 const LeftContent = styled("div")`
@@ -58,6 +56,7 @@ const LeftContent = styled("div")`
   max-height: 430px;
   display: grid;
   place-items: center;
+  min-height: 400px;
 
   @media screen and (max-width: 1060px) {
     height: 40vh;

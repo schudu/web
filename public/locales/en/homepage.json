@@ -1,0 +1,38 @@
+{
+  "home": "Home",
+
+  "slogan": "for You",
+  "slogan-paragraph": "Your App for managing your Homework and Dates!",
+
+  "about-us": {
+    "heading": "About Us",
+    "paragraph": "I am a Student who often forgets Homeworks and other Dates. In my School we use multiple different Platforms to manage the Documents and Homework submissions. So I wanted something where everything is in One Place so that I can keep the overview easily."
+  },
+
+  "mobile": {
+    "heading": "Mobile",
+    "comming-soon": "Comming Soon"
+  },
+
+  "pricing": {
+    "heading": "Pricing",
+
+    "month": "month",
+
+    "quiz": "Quizzes",
+    "homework": "Homework",
+    "calendar": "Calendar",
+    "submithw": "Submit Homework",
+    "filestorage": "Filestorage",
+    "no-ads": "No Ads",
+
+    "free": {
+      "name": "Free",
+      "description": "Get All Necessary Features Without Paying A Cent!"
+    },
+    "premium": {
+      "name": "Premium",
+      "description": "Go Premium and benefit from extra features!"
+    }
+  }
+}

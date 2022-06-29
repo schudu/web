@@ -1,90 +1,93 @@
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
 import { InnerLayout } from "~/styles/Layouts";
 import PriceCard from "./PriceCard";
 
+export let handle = {
+  i18n: "homepage",
+};
+
 export default function PriceSection() {
+  let { t } = useTranslation("homepage");
+  let { t: common } = useTranslation();
   return (
-    <PriceSectionContainer id="pricing">
-      <InnerLayout>
-        <PriceContainer>
-          <PriceCard
-            name="Free"
-            price={0}
-            timespan="/month"
-            description="Get All Necessary Features Without Paying A Cent!"
-            button="Get Started"
-            onClick={() => {
-              console.log("hi");
-            }}
-            features={[
-              {
-                name: "Homeworks",
-                available: true,
-              },
-              {
-                name: "Quizzes",
-                available: true,
-              },
-              {
-                name: "Calendar",
-                available: true,
-              },
-              {
-                name: "Uploading Homeworks",
-                available: true,
-              },
-              {
-                name: "Filestorage",
-                available: false,
-              },
-            ]}
-          />
-          <PriceCard
-            name="Premium"
-            price={2.99}
-            timespan="/month"
-            description="Go Premium and benefit from extra features!"
-            button="Go Premium"
-            onClick={() => {
-              console.log("hi");
-            }}
-            features={[
-              {
-                name: "Homeworks",
-                available: true,
-              },
-              {
-                name: "Quizzes",
-                available: true,
-              },
-              {
-                name: "Calendar",
-                available: true,
-              },
-              {
-                name: "Uploading Homeworks",
-                available: true,
-              },
-              {
-                name: "Filestorage",
-                available: true,
-              },
-              {
-                name: "No Ads",
-                available: true,
-              },
-            ]}
-          />
-        </PriceContainer>
-      </InnerLayout>
-    </PriceSectionContainer>
+    <InnerLayout>
+      <PriceContainer id="pricing">
+        <PriceCard
+          name={t("pricing.free.name")}
+          price={0}
+          timespan={"/" + t("pricing.month")}
+          description={t("pricing.free.description")}
+          button={common("getstarted")}
+          onClick={() => {
+            console.log("hi");
+          }}
+          features={[
+            {
+              name: t("pricing.homework"),
+              available: true,
+            },
+            {
+              name: t("pricing.quiz"),
+              available: true,
+            },
+            {
+              name: t("pricing.calendar"),
+              available: true,
+            },
+            {
+              name: t("pricing.submithw"),
+              available: true,
+            },
+            {
+              name: t("pricing.filestorage"),
+              available: true,
+            },
+          ]}
+        />
+        <PriceCard
+          name={t("pricing.premium.name")}
+          price={2.99}
+          timespan={"/" + t("pricing.month")}
+          description={t("pricing.premium.description")}
+          button={common("gopremium")}
+          onClick={() => {
+            console.log("hi");
+          }}
+          features={[
+            {
+              name: t("pricing.homework"),
+              available: true,
+            },
+            {
+              name: t("pricing.quiz"),
+              available: true,
+            },
+            {
+              name: t("pricing.calendar"),
+              available: true,
+            },
+            {
+              name: t("pricing.submithw"),
+              available: true,
+            },
+            {
+              name: t("pricing.filestorage"),
+              available: true,
+            },
+            {
+              name: t("pricing.no-ads"),
+              available: true,
+            },
+          ]}
+        />
+      </PriceContainer>
+    </InnerLayout>
   );
 }
 
-const PriceSectionContainer = styled("section")``;
-
-const PriceContainer = styled("div")`
+const PriceContainer = styled("section")`
   display: flex;
   justify-content: space-evenly;
 
