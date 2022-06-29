@@ -12,5 +12,27 @@
   "mobile": {
     "heading": "Mobile",
     "comming-soon": "Comming Soon"
+  },
+
+  "pricing": {
+    "heading": "Pricing",
+
+    "month": "month",
+
+    "quiz": "Quizzes",
+    "homework": "Homework",
+    "calendar": "Calendar",
+    "submithw": "Submit Homework",
+    "filestorage": "Filestorage",
+    "no-ads": "No Ads",
+
+    "free": {
+      "name": "Free",
+      "description": "Get All Necessary Features Without Paying A Cent!"
+    },
+    "premium": {
+      "name": "Premium",
+      "description": "Go Premium and benefit from extra features!"
+    }
   }
 }

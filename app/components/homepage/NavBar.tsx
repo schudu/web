@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@remix-run/react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import styled from "styled-components";
@@ -12,12 +12,29 @@ export let handle = {
 
 export default function NavBar() {
   const [click, setClick] = useState(false);
+  const [colorChange, setColorchange] = useState(false);
 
   const handleClick = () => setClick(!click);
 
+  const changeNavbarColor = () => {
+    console.log(colorChange);
+    if (window.scrollY >= 80) {
+      setColorchange(true);
+      //console.log("true");
+    } else {
+      setColorchange(false);
+      //console.log("false");
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", changeNavbarColor);
+  }, []);
+
   let { t } = useTranslation("homepage");
+  let { t: common } = useTranslation();
   return (
-    <NavbarWrapper>
+    <NavbarWrapper className={colorChange ? "bg" : ""}>
       <NavbarContainer>
         <NavLogoContainer to="">
           <NavLogo src="/images/logo.svg" alt="LOGO" />
@@ -37,11 +54,11 @@ export default function NavBar() {
             <NavLink to="#mobile">{t("mobile.heading")}</NavLink>
           </NavListItem>
           <NavListItem>
-            <NavLink to="#pricing">Pricing</NavLink>
+            <NavLink to="#pricing">{t("pricing.heading")}</NavLink>
           </NavListItem>
           <NavListItemBtn>
             <NavButton>
-              <a href="https://schudu.com/login">Login</a>
+              <a href="https://schudu.com/login">{common("login")}</a>
             </NavButton>
           </NavListItemBtn>
         </NavItemList>
@@ -55,6 +72,15 @@ const NavbarWrapper = styled("div")`
   display: grid;
   place-items: center;
   height: 80px;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.1s ease-in-out;
+
+  &.bg {
+    background-color: var(--yellow);
+    filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.25));
+  }
 `;
 
 const NavbarContainer = styled("nav")`
@@ -62,7 +88,6 @@ const NavbarContainer = styled("nav")`
   justify-content: space-between;
   height: 40px;
   width: 80%;
-  margin-top: 40px;
   align-items: center;
   z-index: 1000;
 `;

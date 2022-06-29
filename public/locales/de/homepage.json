@@ -12,5 +12,27 @@
   "mobile": {
     "heading": "Handy",
     "comming-soon": "Kommt bald"
+  },
+
+  "pricing": {
+    "heading": "Kosten",
+
+    "month": "monat",
+
+    "quiz": "Quizzes",
+    "homework": "Hausaufgaben",
+    "calendar": "Kalendar",
+    "submithw": "Hausaufgaben abgeben",
+    "filestorage": "Datei Speicher",
+    "no-ads": "keine Werbung",
+
+    "free": {
+      "name": "Kostenlos",
+      "description": "Erhalten Sie alle notwendigen Funktionen, ohne einen Cent zu bezahlen!"
+    },
+    "premium": {
+      "name": "Premium",
+      "description": "Wählen Sie Premium und profitieren Sie von zusätzlichen Funktionen!"
+    }
   }
 }

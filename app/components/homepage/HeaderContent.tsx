@@ -9,6 +9,7 @@ export let handle = {
 
 export default function HeaderContent() {
   let { t } = useTranslation("homepage");
+  let { t: common } = useTranslation();
   return (
     <HeaderContainer>
       <LeftContent>
@@ -17,7 +18,7 @@ export default function HeaderContent() {
             <BrandName>SCHUDU</BrandName> {t("slogan")}
           </Heading>
           <SubHeading>{t("slogan-paragraph")}</SubHeading>
-          <Button>Get Started</Button>
+          <Button>{common("getstarted")}</Button>
         </LeftTextContainer>
       </LeftContent>
       <RightContent>
@@ -31,7 +32,7 @@ const HeaderContainer = styled("div")`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  margin-top: 10vh;
+  margin-top: 100px;
   flex-wrap: wrap;
   padding: 0 3rem;
 `;

@@ -1,76 +1,83 @@
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
 import { InnerLayout } from "~/styles/Layouts";
 import PriceCard from "./PriceCard";
 
+export let handle = {
+  i18n: "homepage",
+};
+
 export default function PriceSection() {
+  let { t } = useTranslation("homepage");
+  let { t: common } = useTranslation();
   return (
     <InnerLayout>
       <PriceContainer id="pricing">
         <PriceCard
-          name="Free"
+          name={t("pricing.free.name")}
           price={0}
-          timespan="/month"
-          description="Get All Necessary Features Without Paying A Cent!"
-          button="Get Started"
+          timespan={"/" + t("pricing.month")}
+          description={t("pricing.free.description")}
+          button={common("getstarted")}
           onClick={() => {
             console.log("hi");
           }}
           features={[
             {
-              name: "Homeworks",
+              name: t("pricing.homework"),
               available: true,
             },
             {
-              name: "Quizzes",
+              name: t("pricing.quiz"),
               available: true,
             },
             {
-              name: "Calendar",
+              name: t("pricing.calendar"),
               available: true,
             },
             {
-              name: "Uploading Homeworks",
+              name: t("pricing.submithw"),
               available: true,
             },
             {
-              name: "Filestorage",
-              available: false,
+              name: t("pricing.filestorage"),
+              available: true,
             },
           ]}
         />
         <PriceCard
-          name="Premium"
+          name={t("pricing.premium.name")}
           price={2.99}
-          timespan="/month"
-          description="Go Premium and benefit from extra features!"
-          button="Go Premium"
+          timespan={"/" + t("pricing.month")}
+          description={t("pricing.premium.description")}
+          button={common("gopremium")}
           onClick={() => {
             console.log("hi");
           }}
           features={[
             {
-              name: "Homeworks",
+              name: t("pricing.homework"),
               available: true,
             },
             {
-              name: "Quizzes",
+              name: t("pricing.quiz"),
               available: true,
             },
             {
-              name: "Calendar",
+              name: t("pricing.calendar"),
               available: true,
             },
             {
-              name: "Uploading Homeworks",
+              name: t("pricing.submithw"),
               available: true,
             },
             {
-              name: "Filestorage",
+              name: t("pricing.filestorage"),
               available: true,
             },
             {
-              name: "No Ads",
+              name: t("pricing.no-ads"),
               available: true,
             },
           ]}
