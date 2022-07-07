@@ -1,18 +1,20 @@
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
-import { Link } from "@remix-run/react";
+import { Link, useFetcher, useLoaderData } from "@remix-run/react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import styled from "styled-components";
 
 import { Button } from "~/styles/Globalstyles";
 
-export let handle = {
-  i18n: "homepage",
-};
-
 export default function NavBar() {
+  const fetcher = useFetcher();
+
+  let { t } = useTranslation("homepage");
+  let { t: common, i18n } = useTranslation();
+
   const [click, setClick] = useState(false);
   const [colorChange, setColorchange] = useState(false);
+  const [language, setLanguage] = useState(i18n.language);
 
   const handleClick = () => setClick(!click);
 
@@ -27,12 +29,20 @@ export default function NavBar() {
     }
   };
 
+  const handleLanguageChange = (e: any) => {
+    if (language !== e.target.innerText.toLowerCase()) {
+      setLanguage(e.target.innerText.toLowerCase());
+      fetcher.submit(
+        { lang: e.target.innerText.toLowerCase() },
+        { method: "post" }
+      );
+    }
+  };
+
   useEffect(() => {
     window.addEventListener("scroll", changeNavbarColor);
   }, []);
 
-  let { t } = useTranslation("homepage");
-  let { t: common } = useTranslation();
   return (
     <NavbarWrapper className={colorChange ? "bg" : ""}>
       <NavbarContainer>
@@ -63,6 +73,13 @@ export default function NavBar() {
           </NavListItemBtn>
         </NavItemList>
       </NavbarContainer>
+      <LangSwitch>
+        <LangSwitchItem>{language.toUpperCase()}</LangSwitchItem>
+        <LangSwitchList className="switchList">
+          <LangSwitchItem onClick={handleLanguageChange}>DE</LangSwitchItem>
+          <LangSwitchItem onClick={handleLanguageChange}>EN</LangSwitchItem>
+        </LangSwitchList>
+      </LangSwitch>
     </NavbarWrapper>
   );
 }
@@ -205,5 +222,48 @@ export const NavButton = styled(Button)`
   @media screen and (max-width: 960px) {
     width: 100%;
     height: 100%;
+  }
+`;
+
+export const LangSwitch = styled("div")`
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--yellow);
+  border-radius: 10px;
+  margin-top: 15px;
+  margin-right: 20px;
+  width: 50px;
+  cursor: pointer;
+
+  &:hover .switchList {
+    display: initial;
+  }
+`;
+
+export const LangSwitchList = styled("div")`
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: none;
+  overflow: hidden;
+  background: var(--orange);
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+`;
+
+export const LangSwitchItem = styled("h3")`
+  padding: 0 10px;
+  width: 100%;
+  text-align: center;
+  width: 100%;
+  height: 50px;
+  display: grid;
+  place-items: center;
+
+  &:hover {
+    transform: scale(1.03);
+    filter: brightness(97%);
   }
 `;

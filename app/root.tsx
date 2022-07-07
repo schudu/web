@@ -11,6 +11,7 @@ import {
 import { useChangeLanguage } from "remix-i18next";
 import { useTranslation } from "react-i18next";
 import i18next from "~/i18next.server";
+import { userLanguage } from "~/cookies";
 
 import GlobalStyles from "./styles/Globalstyles";
 
@@ -32,7 +33,11 @@ export const meta: MetaFunction = () => ({
 type LoaderData = { locale: string };
 
 export let loader: LoaderFunction = async ({ request }: any) => {
-  let locale = await i18next.getLocale(request);
+  const cookieHeader = request.headers.get("Cookie");
+  let locale =
+    (await userLanguage.parse(cookieHeader)) ||
+    (await i18next.getLocale(request));
+
   return json<LoaderData>({ locale });
 };
 
