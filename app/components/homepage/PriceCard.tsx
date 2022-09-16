@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { FaCheck } from "react-icons/fa";
-
-import { Button } from "~/styles/Globalstyles";
+import Button from "../Button";
 
 interface Props {
   name: string;
@@ -33,7 +32,7 @@ export default function PriceCard({
       <Price>${price}</Price>
       <TimeSpan>{timespan}</TimeSpan>
       <Description>{description}</Description>
-      <Button onClick={onClick}>{button}</Button>
+      <Button onClick={onClick} text={button} />
       <FeatureList>
         {features.map(({ name, available }) => (
           <FeatureItem key={name}>

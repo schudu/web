@@ -35,30 +35,6 @@ const GlobalStyles = createGlobalStyle`
   }
 `;
 
-export const Button = styled.button`
-  background-color: var(--orange);
-  padding: 0.7rem 2rem;
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-  border-radius: 20px;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  white-space: nowrap;
-  transition: all 0.2s ease-in-out;
-
-  &:hover {
-    transform: scale(1.05);
-    filter: brightness(97%);
-  }
-`;
-
 export const SecondaryHeading = styled.h2`
   color: var(--black);
   font-size: 3rem;
