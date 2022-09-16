@@ -1,7 +1,9 @@
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
-import { SubHeading, Button } from "~/styles/Globalstyles";
+import { SubHeading } from "~/styles/Globalstyles";
+import { OuterLayout } from "~/styles/Layouts";
+import Button from "../Button";
 
 export let handle = {
   i18n: "homepage",
@@ -11,20 +13,22 @@ export default function HeaderContent() {
   let { t } = useTranslation("homepage");
   let { t: common } = useTranslation();
   return (
-    <HeaderContainer>
-      <LeftContent>
-        <LeftTextContainer>
-          <Heading>
-            <BrandName>SCHUDU</BrandName> {t("slogan")}
-          </Heading>
-          <SubHeading>{t("slogan-paragraph")}</SubHeading>
-          <Button>{common("getstarted")}</Button>
-        </LeftTextContainer>
-      </LeftContent>
-      <RightContent>
-        <Image src="/images/header_img.png" alt="student" />
-      </RightContent>
-    </HeaderContainer>
+    <OuterLayout>
+      <HeaderContainer>
+        <LeftContent>
+          <LeftTextContainer>
+            <Heading>
+              <BrandName>SCHUDU</BrandName> {t("slogan")}
+            </Heading>
+            <SubHeading>{t("slogan-paragraph")}</SubHeading>
+            <Button text={common("getstarted")} />
+          </LeftTextContainer>
+        </LeftContent>
+        <RightContent>
+          <Image src="/images/header_img.svg" alt="student" />
+        </RightContent>
+      </HeaderContainer>
+    </OuterLayout>
   );
 }
 
@@ -32,9 +36,13 @@ const HeaderContainer = styled("div")`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  flex-wrap: nowrap;
+  gap: 30px;
   margin-top: 100px;
-  flex-wrap: wrap;
-  padding: 0 3rem;
+
+  @media screen and (max-width: 960px) {
+    flex-wrap: wrap;
+  }
 `;
 
 const LeftContent = styled("div")`
@@ -59,5 +67,10 @@ const BrandName = styled("h1")`
 `;
 
 const Image = styled.img`
-  max-width: 80vw;
+  max-width: 500px;
+  width: 100%;
+
+  @media screen and (max-width: 960px) {
+    max-width: 100%;
+  }
 `;

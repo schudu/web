@@ -6,7 +6,7 @@ import HeaderContent from "./HeaderContent";
 export default function Header() {
   return (
     <HeaderContainer>
-      <Background></Background>
+      <Background />
       <NavBar />
       <HeaderContent />
     </HeaderContainer>
@@ -21,7 +21,8 @@ const HeaderContainer = styled("header")`
 
 const Background = styled("div")`
   width: 100vw;
-  height: 100vh;
+  height: 50vw;
+  min-height: 550px;
   background-image: url("/images/background_v1_wave.png");
   background-position-y: 100%;
   background-repeat: no-repeat;
@@ -30,4 +31,8 @@ const Background = styled("div")`
   top: 0;
   left: 0;
   z-index: -1;
+
+  @media screen and (max-width: 960px) {
+    height: 700px;
+  }
 `;

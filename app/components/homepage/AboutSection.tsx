@@ -18,7 +18,7 @@ export default function MobileSection() {
           <SubHeading>{t("about-us.paragraph")}</SubHeading>
         </LeftContent>
         <RightContent>
-          <Image src="/images/booking.png" />
+          <Image src="/images/team.svg" />
         </RightContent>
       </AboutContainer>
     </InnerLayout>

@@ -1,10 +1,9 @@
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
-import { Link, useFetcher, useLoaderData } from "@remix-run/react";
+import { Link, useFetcher } from "@remix-run/react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import styled from "styled-components";
-
-import { Button } from "~/styles/Globalstyles";
+import Button from "../Button";
 
 export default function NavBar() {
   const fetcher = useFetcher();
@@ -19,7 +18,6 @@ export default function NavBar() {
   const handleClick = () => setClick(!click);
 
   const changeNavbarColor = () => {
-    console.log(colorChange);
     if (window.scrollY >= 80) {
       setColorchange(true);
       //console.log("true");
@@ -235,9 +233,14 @@ export const LangSwitch = styled("div")`
   margin-right: 20px;
   width: 50px;
   cursor: pointer;
+  z-index: 1001;
 
   &:hover .switchList {
-    display: initial;
+    opacity: 1;
+  }
+
+  @media screen and (max-width: 750px) {
+    right: 15%;
   }
 `;
 
@@ -245,7 +248,7 @@ export const LangSwitchList = styled("div")`
   position: absolute;
   top: 0;
   right: 0;
-  display: none;
+  opacity: 0;
   overflow: hidden;
   background: var(--orange);
   border-radius: 10px;
