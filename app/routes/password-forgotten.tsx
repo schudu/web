@@ -8,17 +8,17 @@ import NavBar from "~/components/homepage/NavBar";
 import Input from "~/components/Input";
 
 export const meta: MetaFunction = () => ({
-  title: "Login - Schudu",
-  "og:title": `Login`,
-  "og:url": "/login",
-  description: `Log now in to manage Homework, Dates and Learningmaterial for the whole Class!`,
-  "og:description": `Log now in to manage Homework, Dates and Learningmaterial for the whole Class!`,
-  "twitter:title": `Login`,
-  "twitter:description": `Log now in to manage Homework, Dates and Learningmaterial for the whole Class!`,
+  title: "Password Forgotten - Schudu",
+  "og:title": `Password Forgotten`,
+  "og:url": "/password-forgotten",
+  description: `You have forgotten the Password of your Account? Not Good! But now Problem!`,
+  "og:description": `You have forgotten the Password of your Account? Not Good! But now Problem!`,
+  "twitter:title": `Password Forgotten`,
+  "twitter:description": `You have forgotten the Password of your Account? Not Good! But now Problem!`,
   "twitter:card": "summary_larger_image",
 });
 
-export default function login() {
+export default function passwordForgotten() {
   let { t } = useTranslation("account");
   let { t: common } = useTranslation();
   return (
@@ -26,25 +26,19 @@ export default function login() {
       <NavBar smallNav />
       <SiteContainer>
         <LeftContent>
-          <LoginImage src="/images/login.svg" />
+          <LoginImage src="/images/password-forgotten.svg" />
         </LeftContent>
         <RightContent>
           <FormContainer>
-            <PreHeading>{t("everything_free")}</PreHeading>
-            <Heading>{common("login")}</Heading>
-            <RegisterContainer>
-              <RegisterQuestion>{t("no_user_yet")}</RegisterQuestion>
-              <RegisterLink to="/register">{common("register")}</RegisterLink>
-            </RegisterContainer>
-            <InputContainer>
-              <Input heading={`${common("email")} / ${common("username")}`} />
-              <Input heading={common("password")} />
-            </InputContainer>
-            <ForgottenContainer>
-              <RegisterQuestion>{t("password_forgotten")}</RegisterQuestion>
-              <RegisterLink to="#">{common("reset")}</RegisterLink>
-            </ForgottenContainer>
-            <Button primary text={common("login")} style={{ float: "right" }} />
+            <PreHeading>{t("not_good")}</PreHeading>
+            <Heading>{t("forgot_password")}</Heading>
+            <ResetDescription>{t("forgot_description")}</ResetDescription>
+            <Input heading={common("email")} style={{ marginTop: "25px" }} />
+            <Button
+              primary
+              text={common("reset")}
+              style={{ float: "right", marginTop: "10px" }}
+            />
           </FormContainer>
         </RightContent>
       </SiteContainer>
@@ -133,21 +127,8 @@ const PreHeading = styled.h6``;
 
 const Heading = styled.h1``;
 
-const RegisterContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 5px;
-`;
-
-const RegisterQuestion = styled.span`
-  font-size: 11px;
-`;
-
-const RegisterLink = styled(Link)`
-  font-size: 11px;
-  color: blue;
+const ResetDescription = styled.span`
+  font-size: 16px;
 `;
 
 const InputContainer = styled.div`
@@ -155,13 +136,4 @@ const InputContainer = styled.div`
   flex-direction: column;
   gap: 15px;
   margin-top: 25px;
-`;
-
-const ForgottenContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: nowrap;
-  align-items: center;
-  gap: 5px;
-  margin-top: 10px;
 `;

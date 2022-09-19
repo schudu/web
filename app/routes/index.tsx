@@ -24,7 +24,9 @@ export const action = async ({ request }: any) => {
 
   cookie = formData.get("lang");
 
-  return redirect("/", {
+  const url = new URL(request.headers.get("referer"));
+
+  return redirect(url.pathname, {
     headers: {
       "Set-Cookie": await userLanguage.serialize(cookie),
     },

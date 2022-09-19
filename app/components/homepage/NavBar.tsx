@@ -5,7 +5,12 @@ import { FaBars, FaTimes } from "react-icons/fa";
 import styled from "styled-components";
 import Button from "../Button";
 
-export default function NavBar() {
+interface Props {
+  smallNav?: boolean;
+  route?: string;
+}
+
+export default function NavBar({ smallNav, route }: Props) {
   const fetcher = useFetcher();
 
   let { t } = useTranslation("homepage");
@@ -31,8 +36,8 @@ export default function NavBar() {
     if (language !== e.target.innerText.toLowerCase()) {
       setLanguage(e.target.innerText.toLowerCase());
       fetcher.submit(
-        { lang: e.target.innerText.toLowerCase() },
-        { method: "post" }
+        { lang: e.target.innerText.toLowerCase(), route },
+        { method: "post", action: "/?index" }
       );
     }
   };
@@ -48,28 +53,35 @@ export default function NavBar() {
           <NavLogo src="/images/logo.svg" alt="LOGO" />
           <NavName>SCHUDU</NavName>
         </NavLogoContainer>
-        <MobileIcon onClick={handleClick}>
-          {click ? <FaTimes /> : <FaBars />}
-        </MobileIcon>
-        <NavItemList onClick={handleClick} click={click}>
-          <NavListItem>
-            <NavLink to="/">{t("home")}</NavLink>
-          </NavListItem>
-          <NavListItem>
-            <NavLink to="#about">{t("about-us.heading")}</NavLink>
-          </NavListItem>
-          <NavListItem>
-            <NavLink to="#mobile">{t("mobile.heading")}</NavLink>
-          </NavListItem>
-          <NavListItem>
-            <NavLink to="#pricing">{t("pricing.heading")}</NavLink>
-          </NavListItem>
-          <NavListItemBtn>
-            <NavButton>
-              <a href="https://schudu.com/login">{common("login")}</a>
-            </NavButton>
-          </NavListItemBtn>
-        </NavItemList>
+        {!smallNav && (
+          <>
+            <MobileIcon onClick={handleClick}>
+              {click ? <FaTimes /> : <FaBars />}
+            </MobileIcon>
+            <NavItemList onClick={handleClick} click={click}>
+              <NavListItem>
+                <NavLink to="/">{t("home")}</NavLink>
+              </NavListItem>
+              <NavListItem>
+                <NavLink to="#about">{t("about-us.heading")}</NavLink>
+              </NavListItem>
+              <NavListItem>
+                <NavLink to="#mobile">{t("mobile.heading")}</NavLink>
+              </NavListItem>
+              <NavListItem>
+                <NavLink to="#pricing">{t("pricing.heading")}</NavLink>
+              </NavListItem>
+              <NavListItemBtn>
+                <Button
+                  link="https://schudu.com/login"
+                  text={common("login")}
+                  navBtn
+                  primary
+                />
+              </NavListItemBtn>
+            </NavItemList>
+          </>
+        )}
       </NavbarContainer>
       <LangSwitch>
         <LangSwitchItem>{language.toUpperCase()}</LangSwitchItem>
@@ -216,13 +228,6 @@ export const NavBtnLink = styled(Link)`
   outline: none;
 `;
 
-export const NavButton = styled(Button)`
-  @media screen and (max-width: 960px) {
-    width: 100%;
-    height: 100%;
-  }
-`;
-
 export const LangSwitch = styled("div")`
   position: absolute;
   top: 0;
@@ -270,3 +275,6 @@ export const LangSwitchItem = styled("h3")`
     filter: brightness(97%);
   }
 `;
+function useRouteData() {
+  throw new Error("Function not implemented.");
+}

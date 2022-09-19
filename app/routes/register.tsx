@@ -1,52 +1,52 @@
 import { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import Button from "~/components/Button";
+import NavBar from "~/components/homepage/NavBar";
 import Input from "~/components/Input";
 
 export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "Login",
-  "og:title": `Login`,
-  "og:type": "website",
-  viewport: "width=device-width,initial-scale=1",
-  "og:url": "/login",
-  "og:site_name": "Schudu",
-  "og:image": "/images/logo_gelb.png",
-  description: `Log now in to manage Homework, Dates and Learningmaterial for the whole Class!`,
-  "og:description": `Log now in to manage Homework, Dates and Learningmaterial for the whole Class!`,
-  "twitter:title": `Login`,
-  "twitter:description": `Log now in to manage Homework, Dates and Learningmaterial for the whole Class!`,
+  title: "Register - Schudu",
+  "og:title": `Register`,
+  "og:url": "/register",
+  description: `Register now to manage Homework, Dates and Learningmaterial for the whole Class!`,
+  "og:description": `Register now to manage Homework, Dates and Learningmaterial for the whole Class!`,
+  "twitter:title": `Register`,
+  "twitter:description": `Register now to manage Homework, Dates and Learningmaterial for the whole Class!`,
   "twitter:card": "summary_larger_image",
-  robots: "index, follow",
 });
 
 export default function register() {
+  let { t } = useTranslation("account");
+  let { t: common } = useTranslation();
   return (
     <RegisterContainer>
+      <NavBar smallNav />
       <SiteContainer>
         <LeftContent>
           <FormContainer>
-            <PreHeading>Everything Free</PreHeading>
-            <Heading>Register</Heading>
+            <PreHeading>{t("everything_free")}</PreHeading>
+            <Heading>{common("register")}</Heading>
             <LoginContainer>
-              <LoginQuestion>Already using Schudu?</LoginQuestion>
-              <LoginLink to="/login">Login</LoginLink>
+              <LoginQuestion>{t("already_user")}</LoginQuestion>
+              <LoginLink to="/login">{common("login")}</LoginLink>
             </LoginContainer>
             <InputContainer>
-              <Input heading="Username" />
+              <Input heading={common("username")} />
               <NameContainer>
                 <Input
-                  heading="Firstname"
-                  hint="Only Teachers will see your real name!"
+                  heading={common("firstname")}
+                  hint={t("only_teacher_can_see")}
                 />
-                <Input heading="Lastname" />
+                <Input heading={common("lastname")} />
               </NameContainer>
-              <Input heading="Email" />
-              <Input heading="Password" />
+              <Input heading={common("email")} />
+              <Input heading={common("password")} />
             </InputContainer>
             <Button
-              text="Register"
+              primary
+              text={common("register")}
               style={{ float: "right", marginTop: "10px" }}
             />
           </FormContainer>
@@ -62,6 +62,10 @@ export default function register() {
 const RegisterContainer = styled.div`
   height: 100vh;
   width: 100%;
+
+  @media screen and (max-width: 900px) {
+    min-height: 100vh;
+  }
 `;
 
 const SiteContainer = styled.div`
@@ -69,6 +73,12 @@ const SiteContainer = styled.div`
   flex-direction: row;
   flex-wrap: nowrap;
   justify-content: space-between;
+
+  @media screen and (max-width: 900px) {
+    flex-direction: column;
+    padding-top: 80px;
+    height: 100%;
+  }
 `;
 
 const LeftContent = styled.div`
@@ -77,6 +87,11 @@ const LeftContent = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  @media screen and (max-width: 900px) {
+    width: 100%;
+    height: auto;
+  }
 `;
 
 const RightContent = styled.div`
@@ -91,16 +106,32 @@ const RightContent = styled.div`
   align-items: flex-end;
   padding: 0 8vw 10vh 3vw;
   rotate: 180deg;
+
+  @media screen and (max-width: 900px) {
+    width: 100%;
+    height: 100%;
+    background-image: url("/images/background_v1_wave.png");
+    background-position: bottom;
+    display: flex;
+    align-items: start;
+    padding: 10px;
+  }
 `;
 
 const RegisterImage = styled.img`
   max-width: 100%;
   rotate: 180deg;
+
+  @media screen and (max-width: 900px) {
+    float: right;
+    height: 30vh;
+  }
 `;
 
 const FormContainer = styled.div`
   max-width: 400px;
   width: 100%;
+  margin: 25px;
 `;
 
 const PreHeading = styled.h6``;
@@ -135,10 +166,5 @@ const NameContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 25px;
-  margin-bottom: 35px;
-`;
-
-const LoginButton = styled(Button)`
-  margin-top: 15px;
-  float: right;
+  margin-bottom: 25px;
 `;

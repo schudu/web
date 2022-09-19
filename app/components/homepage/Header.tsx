@@ -22,6 +22,7 @@ const HeaderContainer = styled("header")`
 const Background = styled("div")`
   width: 100vw;
   height: 50vw;
+  max-height: 100vh;
   min-height: 550px;
   background-image: url("/images/background_v1_wave.png");
   background-position-y: 100%;

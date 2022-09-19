@@ -2,5 +2,13 @@
   "register": "Registrieren",
   "login": "Anmelden",
   "getstarted": "Loslegen",
-  "gopremium": "Mach's Premium"
+  "gopremium": "Mach's Premium",
+
+  "email": "E-Mail",
+  "username": "Nutzername",
+  "password": "Passwort",
+  "reset": "Reset",
+
+  "firstname": "Vorname",
+  "lastname": "Nachname"
 }
