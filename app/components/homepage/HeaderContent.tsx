@@ -21,7 +21,7 @@ export default function HeaderContent() {
               <BrandName>SCHUDU</BrandName> {t("slogan")}
             </Heading>
             <SubHeading>{t("slogan-paragraph")}</SubHeading>
-            <Button text={common("getstarted")} />
+            <Button primary text={common("getstarted")} />
           </LeftTextContainer>
         </LeftContent>
         <RightContent>

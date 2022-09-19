@@ -8,6 +8,7 @@ interface Props {
   type?: string;
   value?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  style?: object;
   className?: string;
 }
 
@@ -19,10 +20,11 @@ export default function Input({
   type = "text",
   value,
   onChange,
+  style,
   className,
 }: Props) {
   return (
-    <InputContainer>
+    <InputContainer style={style}>
       {heading && <Heading>{heading}</Heading>}
       <InputFeld
         type={type}

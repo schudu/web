@@ -2,5 +2,13 @@
   "register": "Register",
   "login": "Login",
   "getstarted": "Get Started",
-  "gopremium": "Go Premium"
+  "gopremium": "Go Premium",
+
+  "email": "Email",
+  "username": "Username",
+  "password": "Password",
+  "reset": "Reset",
+
+  "firstname": "Firstname",
+  "lastname": "Lastname"
 }
