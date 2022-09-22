@@ -8,5 +8,12 @@
 
   "not_good": "Not Good!",
   "forgot_password": "Password Forgotten",
-  "forgot_description": "No worries, we'll send you reset instructions."
+  "forgot_description": "No worries, we'll send you reset instructions.",
+
+  "check_inbox": "Please your check your Inbox",
+  "email_verification": "Email Verification",
+  "nothing_received": "Nothing Received?",
+  "resend": "Resend",
+  "is_email_right": "Is {{email}} not your Email?",
+  "change_it": "Change it"
 }

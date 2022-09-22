@@ -8,6 +8,7 @@
   "username": "Username",
   "password": "Password",
   "reset": "Reset",
+  "confirm": "Confirm",
 
   "firstname": "Firstname",
   "lastname": "Lastname"

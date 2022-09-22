@@ -14,7 +14,7 @@ export const meta: MetaFunction = () => ({
   "og:description": `Register now to manage Homework, Dates and Learningmaterial for the whole Class!`,
   "twitter:title": `Register`,
   "twitter:description": `Register now to manage Homework, Dates and Learningmaterial for the whole Class!`,
-  "twitter:card": "summary_larger_image",
+  "twitter:card": "summary",
 });
 
 export default function register() {
