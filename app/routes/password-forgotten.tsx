@@ -15,7 +15,7 @@ export const meta: MetaFunction = () => ({
   "og:description": `You have forgotten the Password of your Account? Not Good! But now Problem!`,
   "twitter:title": `Password Forgotten`,
   "twitter:description": `You have forgotten the Password of your Account? Not Good! But now Problem!`,
-  "twitter:card": "summary_larger_image",
+  "twitter:card": "summary",
 });
 
 export default function passwordForgotten() {

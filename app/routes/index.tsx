@@ -12,7 +12,7 @@ import UsedBySection from "~/components/homepage/UsedBySection";
 export function meta() {
   return {
     "og:type": "website",
-    "twitter:card": "summary_larger_image",
+    "twitter:card": "summary",
   };
 }
 

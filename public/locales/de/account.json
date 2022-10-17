@@ -8,5 +8,12 @@
 
   "not_good": "Nicht Gut!",
   "forgot_password": "Passwort Vergesseln",
-  "forgot_description": "Keine Sorge, wir schicken Ihnen eine Anleitung zum Zurücksetzen."
+  "forgot_description": "Keine Sorge, wir schicken Ihnen eine Anleitung zum Zurücksetzen.",
+
+  "check_inbox": "Bitte prüfen Sie Ihren Posteingang",
+  "email_verification": "E-Mail-Bestätigung",
+  "nothing_received": "Nichts erhalten?",
+  "resend": "Erneut senden",
+  "is_email_right": "Ist {{email}} nicht Ihre E-Mail?",
+  "change_it": "Ändern"
 }
