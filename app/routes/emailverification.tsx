@@ -85,6 +85,7 @@ export default function emailVerification() {
               <Question>{t("nothing_received")}</Question>
               <QuestionLink to="/login">{t("resend")}</QuestionLink>
             </QuestionContainer>
+            {error && <p style={{ color: "red" }}>{error}</p>}
             <InputContainer>
               <CodeInput ref={inputs.current[0]} />
               <CodeInput ref={inputs.current[1]} />
