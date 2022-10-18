@@ -15,5 +15,50 @@
   "nothing_received": "Nothing Received?",
   "resend": "Resend",
   "is_email_right": "Is {{email}} not your Email?",
-  "change_it": "Change it"
+  "change_it": "Change it",
+
+  "characters": "Characters",
+  "special_characters": "Special characters",
+  "numbers": "Numbers",
+  "lower_case_letters": "Lower case letters",
+  "upper_case_letters": "Upper case letters",
+
+  "errors": {
+    "register": {
+      "username": {
+        "missing": "Please enter a username",
+        "type": "Something went wrong while transferring data. Please try again.",
+        "length": "The username must be at least 4 characters long and no more than 30 characters long.",
+        "@symbol": "The username must not contain @."
+      },
+      "email": {
+        "missing": "Please enter your email address.",
+        "type": "Something went wrong while transferring the data. Please try again.",
+        "fake": "Please enter your real email address!",
+        "format": "Please provide a valid email address."
+      },
+      "firstname": {
+        "missing": "Please provide your first name",
+        "type": "Something went wrong while transferring the data. Please try again.",
+        "length": "Please enter your real first name",
+        "format": "Please specify your real first name."
+      },
+      "lastname": {
+        "missing": "Please provide your last name",
+        "type": "Something went wrong while transferring the data. Please try again.",
+        "length": "Please enter your real last name",
+        "format": "Please specify your real last name."
+      },
+      "password": {
+        "missing": "Please provide a strong password",
+        "type": "Something went wrong while transferring the data. Please try again.",
+        "length": "Your password must be at least 8 and no more than 30 characters long.",
+        "format": "Your password must contain at least 1 special character, 1 number, 1 lowercase letter and 1 uppercase letter."
+      },
+      "passwordConf": {
+        "missing": "Please confirm your password.",
+        "notEquals": "The passwords do not match."
+      }
+    }
+  }
 }

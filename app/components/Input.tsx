@@ -8,6 +8,7 @@ interface Props {
   type?: string;
   value?: string;
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onBlur?: Function;
   style?: object;
   className?: string;
 }
@@ -20,6 +21,7 @@ export default function Input({
   type = "text",
   value,
   onChange,
+  onBlur,
   style,
   className,
 }: Props) {
@@ -31,8 +33,9 @@ export default function Input({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
       />
-      {hint && <Hint>{hint}</Hint>}
+      {hint && !error && <Hint>{hint}</Hint>}
       {error && <Error>{error}</Error>}
     </InputContainer>
   );
@@ -46,7 +49,7 @@ const Heading = styled.small`
 
 const InputFeld = styled.input`
   background: transparent;
-  font-size: 18px;
+  font-size: 16px;
   width: 100%;
   padding: 2px 0;
   outline: none;
