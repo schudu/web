@@ -1,10 +1,14 @@
 import { MetaFunction } from "@remix-run/node";
 import { Link } from "@remix-run/react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import TypeCheck from "~/services/typeCheck";
+
 import styled from "styled-components";
 import Button from "~/components/Button";
 import NavBar from "~/components/homepage/NavBar";
 import Input from "~/components/Input";
+import axios from "axios";
 
 export const meta: MetaFunction = () => ({
   title: "Register - Schudu",
@@ -20,6 +24,79 @@ export const meta: MetaFunction = () => ({
 export default function register() {
   let { t } = useTranslation("account");
   let { t: common } = useTranslation();
+
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [firstname, setFirstname] = useState<string>("");
+  const [lastname, setLastname] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [passwordConf, setPasswordConf] = useState<string>("");
+  const [error, setError] = useState<object>({});
+
+  const handleInputError = (
+    errors: Array<{ where: string; error: string } | undefined>
+  ) => {
+    var err = { ...error };
+    for (let er of errors) {
+      if (!er) continue;
+      err[er.where] = t(`errors.register.${er.where}.${er.error}`);
+    }
+    setError(err);
+  };
+
+  const handleEmailChange = () => {
+    let error = [new TypeCheck(email).isEmail()];
+    error = error.filter((e) => e != null);
+
+    if (error.length) return handleInputError(error);
+  };
+
+  const handlePasswordConfirm = () => {
+    if (password != passwordConf)
+      setError({ ...error, passwordConf: "Passwords do not match" });
+  };
+
+  const handleRegister = () => {
+    let error = [new TypeCheck(firstname).isName("firstname")];
+    error.push(new TypeCheck(lastname).isName("lastname"));
+    error.push(
+      password !== passwordConf
+        ? { where: "passwordConf", error: "notEquals" }
+        : undefined
+    );
+    error.push(
+      !passwordConf ? { where: "passwordConf", error: "missing" } : undefined
+    );
+    error.push(new TypeCheck(password).isPassword());
+    error.push(new TypeCheck(email).isEmail());
+    error.push(new TypeCheck(username).isUsername());
+
+    error = error.filter((e) => e != null);
+
+    if (error.length) return handleInputError(error);
+
+    console.log({
+      firstname,
+      lastname,
+      email,
+      password,
+      username,
+    });
+    return;
+    axios
+      .post("https://api.schudu.com/register", {
+        firstname,
+        lastname,
+        email,
+        password,
+        username,
+      })
+      .then((res) => console.log(res))
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <RegisterContainer>
       <NavBar smallNav />
@@ -33,20 +110,90 @@ export default function register() {
               <LoginLink to="/login">{common("login")}</LoginLink>
             </LoginContainer>
             <InputContainer>
-              <Input heading={common("username")} />
+              <Input
+                heading={common("username")}
+                value={username}
+                onChange={(e: any) => {
+                  setUsername(e.target.value);
+                  setError({ ...error, username: "" });
+                }}
+                error={error.username}
+              />
               <NameContainer>
                 <Input
                   heading={common("firstname")}
                   hint={t("only_teacher_can_see")}
+                  value={firstname}
+                  onChange={(e: any) => {
+                    setFirstname(e.target.value);
+                    setError({ ...error, firstname: "" });
+                  }}
+                  error={error.firstname}
                 />
-                <Input heading={common("lastname")} />
+                <Input
+                  heading={common("lastname")}
+                  value={lastname}
+                  onChange={(e: any) => {
+                    setLastname(e.target.value);
+                    setError({ ...error, lastname: "" });
+                  }}
+                  error={error.lastname}
+                />
               </NameContainer>
-              <Input heading={common("email")} />
-              <Input heading={common("password")} />
+              <Input
+                heading={common("email")}
+                value={email}
+                onChange={(e: any) => {
+                  setEmail(e.target.value);
+                  setError({ ...error, email: "" });
+                }}
+                onBlur={handleEmailChange}
+                error={error.email}
+                type="email"
+              />
+              <Input
+                heading={common("password")}
+                value={password}
+                onChange={(e: any) => {
+                  setPassword(e.target.value);
+                  setError({ ...error, password: "" });
+                }}
+                error={error.password}
+                type="password"
+              />
+              <PasswordRequirements>
+                <PassRequItem color={password.length >= 8}>
+                  8+ {t("characters")}
+                </PassRequItem>
+                <PassRequItem color={/[#?!$ %^&*-]/.test(password)}>
+                  1+ {t("special_characters")}
+                </PassRequItem>
+                <PassRequItem color={/[0-9]/.test(password)}>
+                  1+ {t("numbers")}
+                </PassRequItem>
+                <PassRequItem color={/[a-z]/.test(password)}>
+                  1+ {t("lower_case_letters")}
+                </PassRequItem>
+                <PassRequItem color={/[A-Z]/.test(password)}>
+                  1+ {t("upper_case_letters")}
+                </PassRequItem>
+              </PasswordRequirements>
+              <Input
+                heading={common("password_confirm")}
+                error={error.passwordConf}
+                value={passwordConf}
+                onChange={(e: any) => {
+                  setPasswordConf(e.target.value);
+                  setError({ ...error, passwordConf: "" });
+                }}
+                onBlur={handlePasswordConfirm}
+                type="password"
+              />
             </InputContainer>
             <Button
               primary
               text={common("register")}
+              onClick={handleRegister}
               style={{ float: "right", marginTop: "10px" }}
             />
           </FormContainer>
@@ -167,4 +314,15 @@ const NameContainer = styled.div`
   flex-direction: row;
   gap: 25px;
   margin-bottom: 25px;
+`;
+
+const PasswordRequirements = styled.div`
+  display: flex;
+  flex-direction: column;
+  color: var(--light);
+  font-size: 12px;
+`;
+
+const PassRequItem = styled.small`
+  color: ${({ color }) => (color ? "var(--green)" : "var(--light)")};
 `;
