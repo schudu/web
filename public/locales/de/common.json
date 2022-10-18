@@ -7,6 +7,7 @@
   "email": "E-Mail",
   "username": "Nutzername",
   "password": "Passwort",
+  "password_confirm": "Passwort bestätigen",
   "reset": "Reset",
   "confirm": "Bestätigen",
 

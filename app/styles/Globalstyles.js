@@ -9,6 +9,7 @@ const GlobalStyles = createGlobalStyle`
     --orange: #FF8900;
     --yellow: #FFBE00;
     --blue: #0068E1;
+    --green: #00b800;
   }
 
   *{
@@ -27,7 +28,7 @@ const GlobalStyles = createGlobalStyle`
   body{
     background-color: var(--neutral-light);
     color: var(--black);
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   a{
