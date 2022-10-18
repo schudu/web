@@ -42,11 +42,12 @@ const InputContainer = styled.div``;
 
 const Heading = styled.small`
   color: var(--light);
+  font-size: 14px;
 `;
 
 const InputFeld = styled.input`
   background: transparent;
-  font-size: 18px;
+  font-size: 16px;
   width: 100%;
   padding: 2px 0;
   outline: none;

@@ -16,7 +16,7 @@ export default function NavBar({ smallNav, route }: Props) {
   let { t } = useTranslation("homepage");
   let { t: common, i18n } = useTranslation();
 
-  const [click, setClick] = useState(false);
+  const [click, setClick] = useState<boolean>(false);
   const [colorChange, setColorchange] = useState(false);
   const [language, setLanguage] = useState(i18n.language);
 
@@ -36,14 +36,26 @@ export default function NavBar({ smallNav, route }: Props) {
     if (language !== e.target.innerText.toLowerCase()) {
       setLanguage(e.target.innerText.toLowerCase());
       fetcher.submit(
-        { lang: e.target.innerText.toLowerCase(), route },
+        { lang: e.target.innerText.toLowerCase(), route: route || "" },
         { method: "post", action: "/?index" }
       );
     }
   };
 
   useEffect(() => {
+    if (window.innerWidth <= 960)
+      document.body.style.overflow = click ? "hidden" : "visible";
+  }, [click]);
+
+  useEffect(() => {
     window.addEventListener("scroll", changeNavbarColor);
+
+    window.addEventListener("resize", (e: any) => {
+      if (window.innerWidth > 960) {
+        document.body.style.overflow = "visible";
+        setClick(false);
+      }
+    });
   }, []);
 
   return (
@@ -55,8 +67,9 @@ export default function NavBar({ smallNav, route }: Props) {
         </NavLogoContainer>
         {!smallNav && (
           <>
-            <MobileIcon onClick={handleClick}>
-              {click ? <FaTimes /> : <FaBars />}
+            <MobileIcon className={click ? "open" : ""} onClick={handleClick}>
+              {/* {click ? <FaTimes /> : <FaBars />} */}
+              <div className="icon" />
             </MobileIcon>
             <NavItemList onClick={handleClick} click={click}>
               <NavListItem>
@@ -129,6 +142,55 @@ export const MobileIcon = styled.div`
     cursor: pointer;
     justify-content: center;
     align-items: center;
+  }
+
+  position: relative;
+  width: 30px;
+  height: 30px;
+  transition-duration: 0.5s;
+
+  & .icon {
+    transition-duration: 0.5s;
+    position: absolute;
+    height: 4px;
+    width: 30px;
+    border-radius: 100px;
+    background-color: #212121;
+
+    &::before {
+      transition-duration: 0.5s;
+      position: absolute;
+      width: 30px;
+      height: 4px;
+      background-color: #212121;
+      border-radius: 100px;
+      content: "";
+      top: -10px;
+    }
+
+    &::after {
+      transition-duration: 0.5s;
+      position: absolute;
+      width: 30px;
+      height: 4px;
+      background-color: #212121;
+      border-radius: 100px;
+      content: "";
+      top: 10px;
+    }
+  }
+
+  &.open .icon {
+    transition-duration: 0.5s;
+    background: transparent;
+
+    &::before {
+      transform: rotateZ(45deg) scaleX(1.25) translate(6.5px, 6.5px);
+    }
+
+    &::after {
+      transform: rotateZ(-45deg) scaleX(1.25) translate(6px, -6px);
+    }
   }
 `;
 
@@ -275,6 +337,3 @@ export const LangSwitchItem = styled("h3")`
     filter: brightness(97%);
   }
 `;
-function useRouteData() {
-  throw new Error("Function not implemented.");
-}

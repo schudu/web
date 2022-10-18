@@ -47,6 +47,7 @@ const ButtonContainer = styled.button`
   gap: 10px;
   overflow: hidden;
   position: relative;
+  cursor: pointer;
   transition: all 0.2s ease-in-out;
 
   &:hover,
