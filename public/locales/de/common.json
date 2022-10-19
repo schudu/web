@@ -12,5 +12,7 @@
   "confirm": "Bestätigen",
 
   "firstname": "Vorname",
-  "lastname": "Nachname"
+  "lastname": "Nachname",
+
+  "next": "Weiter"
 }

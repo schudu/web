@@ -32,6 +32,7 @@ export default function register() {
   const [password, setPassword] = useState<string>("");
   const [passwordConf, setPasswordConf] = useState<string>("");
   const [error, setError] = useState<object>({});
+  const [secondPart, setSecondPart] = useState<boolean>(false);
 
   const handleInputError = (
     errors: Array<{ where: string; error: string } | undefined>
@@ -56,9 +57,24 @@ export default function register() {
       setError({ ...error, passwordConf: "Passwords do not match" });
   };
 
-  const handleRegister = () => {
+  const handleNameCheck = () => {
     let error = [new TypeCheck(firstname).isName("firstname")];
     error.push(new TypeCheck(lastname).isName("lastname"));
+    error.push(new TypeCheck(username).isUsername());
+
+    error = error.filter((e) => e != null);
+
+    if (error.length) {
+      handleInputError(error);
+      return setSecondPart(false);
+    }
+    return setSecondPart(true);
+  };
+
+  const handleRegister = () => {
+    handleNameCheck();
+
+    let error = [];
     error.push(
       password !== passwordConf
         ? { where: "passwordConf", error: "notEquals" }
@@ -69,7 +85,6 @@ export default function register() {
     );
     error.push(new TypeCheck(password).isPassword());
     error.push(new TypeCheck(email).isEmail());
-    error.push(new TypeCheck(username).isUsername());
 
     error = error.filter((e) => e != null);
 
@@ -110,90 +125,103 @@ export default function register() {
               <LoginLink to="/login">{common("login")}</LoginLink>
             </LoginContainer>
             <InputContainer>
-              <Input
-                heading={common("username")}
-                value={username}
-                onChange={(e: any) => {
-                  setUsername(e.target.value);
-                  setError({ ...error, username: "" });
-                }}
-                error={error.username}
-              />
-              <NameContainer>
-                <Input
-                  heading={common("firstname")}
-                  hint={t("only_teacher_can_see")}
-                  value={firstname}
-                  onChange={(e: any) => {
-                    setFirstname(e.target.value);
-                    setError({ ...error, firstname: "" });
-                  }}
-                  error={error.firstname}
-                />
-                <Input
-                  heading={common("lastname")}
-                  value={lastname}
-                  onChange={(e: any) => {
-                    setLastname(e.target.value);
-                    setError({ ...error, lastname: "" });
-                  }}
-                  error={error.lastname}
-                />
-              </NameContainer>
-              <Input
-                heading={common("email")}
-                value={email}
-                onChange={(e: any) => {
-                  setEmail(e.target.value);
-                  setError({ ...error, email: "" });
-                }}
-                onBlur={handleEmailChange}
-                error={error.email}
-                type="email"
-              />
-              <Input
-                heading={common("password")}
-                value={password}
-                onChange={(e: any) => {
-                  setPassword(e.target.value);
-                  setError({ ...error, password: "" });
-                }}
-                error={error.password}
-                type="password"
-              />
-              <PasswordRequirements>
-                <PassRequItem color={password.length >= 8}>
-                  8+ {t("characters")}
-                </PassRequItem>
-                <PassRequItem color={/[#?!$ %^&*-]/.test(password)}>
-                  1+ {t("special_characters")}
-                </PassRequItem>
-                <PassRequItem color={/[0-9]/.test(password)}>
-                  1+ {t("numbers")}
-                </PassRequItem>
-                <PassRequItem color={/[a-z]/.test(password)}>
-                  1+ {t("lower_case_letters")}
-                </PassRequItem>
-                <PassRequItem color={/[A-Z]/.test(password)}>
-                  1+ {t("upper_case_letters")}
-                </PassRequItem>
-              </PasswordRequirements>
-              <Input
-                heading={common("password_confirm")}
-                error={error.passwordConf}
-                value={passwordConf}
-                onChange={(e: any) => {
-                  setPasswordConf(e.target.value);
-                  setError({ ...error, passwordConf: "" });
-                }}
-                onBlur={handlePasswordConfirm}
-                type="password"
-              />
+              {!secondPart ? (
+                <>
+                  <Input
+                    heading={common("username")}
+                    value={username}
+                    onChange={(e: any) => {
+                      setUsername(e.target.value);
+                      setError({ ...error, username: "" });
+                    }}
+                    error={error.username}
+                  />
+                  <NameContainer>
+                    <Input
+                      heading={common("firstname")}
+                      hint={t("only_teacher_can_see")}
+                      value={firstname}
+                      onChange={(e: any) => {
+                        setFirstname(e.target.value);
+                        setError({ ...error, firstname: "" });
+                      }}
+                      error={error.firstname}
+                    />
+                    <Input
+                      heading={common("lastname")}
+                      value={lastname}
+                      onChange={(e: any) => {
+                        setLastname(e.target.value);
+                        setError({ ...error, lastname: "" });
+                      }}
+                      error={error.lastname}
+                    />
+                  </NameContainer>
+                </>
+              ) : (
+                <>
+                  <Input
+                    heading={common("email")}
+                    value={email}
+                    onChange={(e: any) => {
+                      setEmail(e.target.value);
+                      setError({ ...error, email: "" });
+                    }}
+                    onBlur={handleEmailChange}
+                    error={error.email}
+                    type="email"
+                  />
+                  <div>
+                    <Input
+                      heading={common("password")}
+                      value={password}
+                      onChange={(e: any) => {
+                        setPassword(e.target.value);
+                        setError({ ...error, password: "" });
+                      }}
+                      error={error.password}
+                      type="password"
+                    />
+                    <PasswordRequirements>
+                      <PassRequItem color={password.length >= 8}>
+                        8+ {t("characters")}
+                      </PassRequItem>
+                      <PassRequItem color={/[#?!$ %^&*-]/.test(password)}>
+                        1+ {t("special_characters")}
+                      </PassRequItem>
+                      <PassRequItem color={/[0-9]/.test(password)}>
+                        1+ {t("numbers")}
+                      </PassRequItem>
+                      <PassRequItem color={/[a-z]/.test(password)}>
+                        1+ {t("lower_case_letters")}
+                      </PassRequItem>
+                      <PassRequItem color={/[A-Z]/.test(password)}>
+                        1+ {t("upper_case_letters")}
+                      </PassRequItem>
+                    </PasswordRequirements>
+                  </div>
+                  <Input
+                    heading={common("password_confirm")}
+                    error={error.passwordConf}
+                    value={passwordConf}
+                    onChange={(e: any) => {
+                      setPasswordConf(e.target.value);
+                      setError({ ...error, passwordConf: "" });
+                    }}
+                    onBlur={handlePasswordConfirm}
+                    type="password"
+                  />
+                  <img
+                    src="https://tse2.mm.bing.net/th?id=OIP.BbVy9MrDWfKRqkufwZrzVQHaCC&pid=Api"
+                    width={250}
+                  />
+                </>
+              )}
             </InputContainer>
             <Button
               primary
-              text={common("register")}
-              onClick={handleRegister}
+              text={secondPart ? common("register") : common("next")}
+              onClick={secondPart ? handleRegister : handleNameCheck}
               style={{ float: "right", marginTop: "10px" }}
             />
           </FormContainer>
@@ -321,6 +349,7 @@ const PasswordRequirements = styled.div`
   flex-direction: column;
   color: var(--light);
   font-size: 12px;
+  margin-top: 10px;
 `;
 
 const PassRequItem = styled.small`

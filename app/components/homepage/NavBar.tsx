@@ -97,11 +97,17 @@ export default function NavBar({ smallNav, route }: Props) {
         )}
       </NavbarContainer>
       <LangSwitch>
-        <LangSwitchItem>{language.toUpperCase()}</LangSwitchItem>
         <LangSwitchList className="switchList">
-          <LangSwitchItem onClick={handleLanguageChange}>DE</LangSwitchItem>
-          <LangSwitchItem onClick={handleLanguageChange}>EN</LangSwitchItem>
+          {language.toUpperCase() != "DE" && (
+            <LangSwitchItem onClick={handleLanguageChange}>DE</LangSwitchItem>
+          )}
+          {language.toUpperCase() != "EN" && (
+            <LangSwitchItem onClick={handleLanguageChange}>EN</LangSwitchItem>
+          )}
         </LangSwitchList>
+        <LangSwitchItem style={{ position: "absolute" }}>
+          {language.toUpperCase()}
+        </LangSwitchItem>
       </LangSwitch>
     </NavbarWrapper>
   );
@@ -296,9 +302,10 @@ export const LangSwitch = styled("div")`
   right: 0;
   background: var(--yellow);
   border-radius: 10px;
-  margin-top: 15px;
-  margin-right: 20px;
-  width: 50px;
+  margin-top: 20px;
+  margin-right: 25px;
+  width: 40px;
+  height: 40px;
   cursor: pointer;
   z-index: 1001;
 
@@ -321,16 +328,17 @@ export const LangSwitchList = styled("div")`
   border-radius: 10px;
   transition: all 0.3s ease-in-out;
   width: 100%;
+  padding-top: 40px;
 `;
 
 export const LangSwitchItem = styled("h3")`
-  padding: 0 10px;
   width: 100%;
   text-align: center;
   width: 100%;
-  height: 50px;
+  height: 40px;
   display: grid;
   place-items: center;
+  text-align: center;
 
   &:hover {
     transform: scale(1.03);
