@@ -14,5 +14,10 @@
   "firstname": "Firstname",
   "lastname": "Lastname",
 
-  "next": "Next"
+  "next": "Next",
+  "change": "Change",
+
+  "errors": {
+    "offline": "You are Offline. Please check your Internet connection."
+  }
 }

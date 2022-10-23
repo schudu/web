@@ -8,11 +8,16 @@
   "username": "Nutzername",
   "password": "Passwort",
   "password_confirm": "Passwort bestätigen",
-  "reset": "Reset",
+  "reset": "Zurücksetzten",
   "confirm": "Bestätigen",
 
   "firstname": "Vorname",
   "lastname": "Nachname",
 
-  "next": "Weiter"
+  "next": "Weiter",
+  "change": "Ändern",
+
+  "errors": {
+    "offline": "Du bist Offline. Bitte überprüfe deine Internetverbindung."
+  }
 }

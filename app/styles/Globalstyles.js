@@ -10,6 +10,8 @@ const GlobalStyles = createGlobalStyle`
     --yellow: #FFBE00;
     --blue: #0068E1;
     --green: #00b800;
+    --error: 255, 0, 0;
+    --warning: 206, 164, 0;
   }
 
   *{
@@ -34,6 +36,24 @@ const GlobalStyles = createGlobalStyle`
   a{
     color: inherit;
   }
+`;
+
+export const Error = styled.p`
+  background-color: rgba(var(--error), 0.2);
+  color: rgb(var(--error));
+  padding: 10px 15px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 15px;
+`;
+
+export const Warning = styled.p`
+  background-color: rgba(var(--warning), 0.2);
+  color: rgb(var(--warning));
+  padding: 10px 15px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 15px;
 `;
 
 export const SecondaryHeading = styled.h2`

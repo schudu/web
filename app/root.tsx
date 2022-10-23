@@ -10,6 +10,8 @@ import {
 } from "@remix-run/react";
 import { useChangeLanguage } from "remix-i18next";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
+
 import i18next from "~/i18next.server";
 import { userLanguage } from "~/cookies";
 
@@ -38,7 +40,10 @@ export let loader: LoaderFunction = async ({ request }: any) => {
     (await userLanguage.parse(cookieHeader)) ||
     (await i18next.getLocale(request));
 
-  return json<LoaderData>({ locale });
+  return json<{ loaderData: LoaderData; api: string }>({
+    loaderData: { locale },
+    api: process.env.API_URL || "",
+  });
 };
 
 export let handle = {
@@ -51,7 +56,13 @@ export let handle = {
 
 export default function App() {
   // Get the locale from the loader
-  let { locale } = useLoaderData<LoaderData>();
+  let { loaderData, api } = useLoaderData<{
+    loaderData: LoaderData;
+    api: string;
+  }>();
+  let { locale } = loaderData;
+
+  axios.defaults.baseURL = api || "";
 
   let { i18n } = useTranslation();
 

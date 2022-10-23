@@ -90,16 +90,9 @@ export default function register() {
 
     if (error.length) return handleInputError(error);
 
-    console.log({
-      firstname,
-      lastname,
-      email,
-      password,
-      username,
-    });
     return;
     axios
-      .post("https://api.schudu.com/register", {
+      .post("/auth/register", {
         firstname,
         lastname,
         email,

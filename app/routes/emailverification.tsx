@@ -101,7 +101,7 @@ export default function emailVerification() {
               <Question>
                 {t("is_email_right", { email: "svolec19@htl-kaindorf.at" })}
               </Question>
-              <QuestionLink to="/profile">{t("change_it")}</QuestionLink>
+              <QuestionLink to="/profile">{common("change")}</QuestionLink>
             </QuestionContainer>
             <Button
               primary

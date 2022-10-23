@@ -6,6 +6,9 @@ import styled from "styled-components";
 import Button from "~/components/Button";
 import NavBar from "~/components/homepage/NavBar";
 import Input from "~/components/Input";
+import { useState } from "react";
+import TypeCheck from "~/services/typeCheck";
+import axios from "axios";
 
 export const meta: MetaFunction = () => ({
   title: "Password Forgotten - Schudu",
@@ -21,6 +24,49 @@ export const meta: MetaFunction = () => ({
 export default function passwordForgotten() {
   let { t } = useTranslation("account");
   let { t: common } = useTranslation();
+
+  const [email, setEmail] = useState<string>("");
+  const [error, setError] = useState<string>("");
+  const [sent, setSent] = useState<boolean>(false);
+
+  const handleInputError = (error: { where: string; error: string }) => {
+    setError(t(`errors.resetpassword.${error.where}.${error.error}`));
+  };
+
+  const handleSubmit = () => {
+    let error = new TypeCheck(email).isEmail();
+
+    if (error) return handleInputError(error);
+
+    axios
+      .get("/auth/resetpassword", { params: { email: email } })
+      .then((res) => {
+        setSent(true);
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.toJSON().message === "Network Error")
+          return setError(
+            "Probably you are Offline. Please check your Internet connection!"
+          );
+
+        switch (parseInt(error.response.status)) {
+          case 400:
+            setError(
+              t(`errors.resetpassword.${error.body.where}.${error.body.error}`)
+            );
+            break;
+          case 401:
+            setError(t("errors.resetpassword.autherized"));
+            break;
+          case 500:
+            setError(t("errors.500"));
+            break;
+        }
+      });
+  };
+
   return (
     <LoginContainer>
       <NavBar smallNav />
@@ -33,12 +79,36 @@ export default function passwordForgotten() {
             <PreHeading>{t("not_good")}</PreHeading>
             <Heading>{t("forgot_password")}</Heading>
             <ResetDescription>{t("forgot_description")}</ResetDescription>
-            <Input heading={common("email")} style={{ marginTop: "25px" }} />
-            <Button
-              primary
-              text={common("reset")}
-              style={{ float: "right", marginTop: "10px" }}
-            />
+            {!sent ? (
+              <>
+                <Input
+                  heading={common("email")}
+                  value={email}
+                  onChange={(e: any) => {
+                    setEmail(e.target.value);
+                    setError("");
+                  }}
+                  error={error}
+                  style={{ marginTop: "25px" }}
+                />
+                <Button
+                  primary
+                  text={common("reset")}
+                  onClick={handleSubmit}
+                  style={{ float: "right", marginTop: "10px" }}
+                />
+              </>
+            ) : (
+              <>
+                <EmailSent>{t("resetEmailSent", { email })}</EmailSent>
+                <Button
+                  primary
+                  text={t("change_email")}
+                  onClick={() => setSent(false)}
+                  style={{ float: "left", marginTop: "10px" }}
+                />
+              </>
+            )}
           </FormContainer>
         </RightContent>
       </SiteContainer>
@@ -135,5 +205,9 @@ const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
+  margin-top: 25px;
+`;
+
+const EmailSent = styled.p`
   margin-top: 25px;
 `;
