@@ -1,11 +1,16 @@
 import { useTranslation } from "react-i18next";
 import { MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
+import { TiTick } from "react-icons/ti";
 
 import Button from "~/components/Button";
 import NavBar from "~/components/homepage/NavBar";
 import Input from "~/components/Input";
+import TypeCheck from "~/services/typeCheck";
+import { Error } from "~/styles/Globalstyles";
 
 export const meta: MetaFunction = () => ({
   title: "Login - Schudu",
@@ -20,7 +25,73 @@ export const meta: MetaFunction = () => ({
 
 export default function login() {
   let { t } = useTranslation("account");
+  let { t: errors } = useTranslation("error");
   let { t: common } = useTranslation();
+
+  const navigate = useNavigate();
+
+  const [account, setAccount] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [remember, setRemember] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+
+  useEffect(() => {
+    axios
+      .get("/whoami")
+      .then((res) => navigate("/dashboard"))
+      .catch((err) => {
+        console.log(err);
+        if (err.toJSON().message === "Network Error")
+          return setError(errors("offline"));
+
+        switch (parseInt(err.response.status)) {
+          case 500:
+            setError(errors("500"));
+            break;
+        }
+      });
+  }, []);
+
+  const handleLogin = () => {
+    if (
+      (new TypeCheck(account).isEmail() != null ||
+        new TypeCheck(account).isUsername() != null) &&
+      new TypeCheck(password).isPassword() != null
+    ) {
+      return setError(errors("wrong_login_data"));
+    }
+
+    axios
+      .post("/auth/login", {
+        password,
+        account,
+        remember,
+      })
+      .then((res) => {
+        if (!res.data.emailVerified) return navigate("/emailverification");
+        navigate("/dashboard");
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.toJSON().message === "Network Error")
+          return setError(errors("offline"));
+
+        switch (parseInt(err.response.status)) {
+          case 400:
+          case 401:
+          case 415:
+            setError(errors("wrong_login_data"));
+            break;
+          case 403:
+            navigate("/dashboard");
+            break;
+          case 500:
+            setError(errors("500"));
+            break;
+        }
+      });
+  };
+
   return (
     <LoginContainer>
       <NavBar smallNav />
@@ -36,15 +107,38 @@ export default function login() {
               <RegisterQuestion>{t("no_user_yet")}</RegisterQuestion>
               <RegisterLink to="/register">{common("register")}</RegisterLink>
             </RegisterContainer>
+            {error && <Error>{error}</Error>}
             <InputContainer>
-              <Input heading={`${common("email")} / ${common("username")}`} />
-              <Input heading={common("password")} />
+              <Input
+                heading={`${common("email")} / ${common("username")}`}
+                value={account}
+                onChange={(e: any) => setAccount(e.target.value)}
+              />
+              <Input
+                heading={common("password")}
+                value={password}
+                type="password"
+                onChange={(e: any) => setPassword(e.target.value)}
+              />
             </InputContainer>
+            <RememberContainer onClick={() => setRemember(!remember)}>
+              <RememberBox active={remember}>
+                <RememberTick size={24} />
+              </RememberBox>
+              <RememberText>Remember me</RememberText>
+            </RememberContainer>
             <ForgottenContainer>
               <RegisterQuestion>{t("password_forgotten")}</RegisterQuestion>
-              <RegisterLink to="#">{common("reset")}</RegisterLink>
+              <RegisterLink to="/password-forgotten">
+                {common("reset")}
+              </RegisterLink>
             </ForgottenContainer>
-            <Button primary text={common("login")} style={{ float: "right" }} />
+            <Button
+              primary
+              text={common("login")}
+              style={{ float: "right" }}
+              onClick={handleLogin}
+            />
           </FormContainer>
         </RightContent>
       </SiteContainer>
@@ -142,11 +236,11 @@ const RegisterContainer = styled.div`
 `;
 
 const RegisterQuestion = styled.span`
-  font-size: 11px;
+  font-size: 12px;
 `;
 
 const RegisterLink = styled(Link)`
-  font-size: 11px;
+  font-size: 12px;
   color: blue;
 `;
 
@@ -164,4 +258,40 @@ const ForgottenContainer = styled.div`
   align-items: center;
   gap: 5px;
   margin-top: 10px;
+`;
+
+const RememberContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  width: 100%;
+  margin: 10px 0;
+`;
+
+const RememberBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 15px;
+  width: 15px;
+  border-radius: 2px;
+  border: 2px solid var(--light);
+  background-color: ${({ active }: { active: boolean }) =>
+    active ? "var(--yellow)" : "transparent"};
+  transition: all 0.2s ease;
+
+  & > * {
+    opacity: ${({ active }: { active: boolean }) => (active ? "1" : "0")};
+  }
+`;
+
+const RememberTick = styled(TiTick)`
+  color: var(--dark);
+  font-weight: bold;
+  transition: all 0.2s ease;
+`;
+
+const RememberText = styled.span`
+  font-size: 14px;
 `;

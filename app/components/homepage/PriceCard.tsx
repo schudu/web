@@ -36,7 +36,7 @@ export default function PriceCard({
       <FeatureList>
         {features.map(({ name, available }) => (
           <FeatureItem key={name}>
-            <FeatureCheck color={available ? "var(--black)" : "var(--light)"} />
+            <FeatureCheck color={available ? "var(--dark)" : "var(--light)"} />
             <FeatureName>{name}</FeatureName>
           </FeatureItem>
         ))}

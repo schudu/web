@@ -4,6 +4,7 @@ const GlobalStyles = createGlobalStyle`
   :root{
     --black: #000;
     --white: #fff;
+    --dark: #000;
     --light: #a5a5a5;
     --neutral-light: #FFFCF4;
     --orange: #FF8900;
@@ -29,8 +30,8 @@ const GlobalStyles = createGlobalStyle`
 
   body{
     background-color: var(--neutral-light);
-    color: var(--black);
     font-size: 1rem;
+    color: var(--dark);
   }
 
   a{
@@ -57,12 +58,12 @@ export const Warning = styled.p`
 `;
 
 export const SecondaryHeading = styled.h2`
-  color: var(--black);
+  color: var(--dark);
   font-size: 3rem;
 `;
 
 export const SubHeading = styled.p`
-  color: var(--black);
+  color: var(--dark);
   line-height: 1.9rem;
   padding: 1rem 0;
   font-size: 1.5rem;

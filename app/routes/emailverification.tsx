@@ -1,10 +1,13 @@
 import { MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
 import { createRef, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
+
 import styled from "styled-components";
 import Button from "~/components/Button";
 import NavBar from "~/components/homepage/NavBar";
+import { Error } from "~/styles/Globalstyles";
 
 export const meta: MetaFunction = () => ({
   title: "Email Verification - Schudu",
@@ -19,13 +22,40 @@ export const meta: MetaFunction = () => ({
 
 export default function emailVerification() {
   let { t } = useTranslation("account");
+  let { t: errors } = useTranslation("error");
   let { t: common } = useTranslation();
+
+  const navigate = useNavigate();
 
   const [error, setError] = useState<string>("");
 
   const inputs = useRef([0, 1, 2, 3, 4, 5].map(() => createRef()));
 
   useEffect(() => {
+    axios
+      .get("/whoami")
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.emailVerified) navigate("/dashboard");
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.toJSON().message === "Network Error")
+          return setError(errors("offline"));
+
+        switch (parseInt(err.response.status)) {
+          case 401:
+            navigate("/login");
+            break;
+          case 403:
+            navigate("/dashboard");
+            break;
+          case 500:
+            setError(errors("500"));
+            break;
+        }
+      });
+
     for (let el in inputs.current) {
       const elem: any = inputs.current[el].current;
       elem.addEventListener("keyup", (e: any) => {
@@ -56,10 +86,12 @@ export default function emailVerification() {
     }
 
     if (parseInt(index) >= inputs.current.length - 1 && e.key !== "Backspace") {
+      handleSubmit();
     }
   };
 
   const handleOnPasteOtp = (e: any) => {
+    e.preventDefault();
     setError("");
     const data: string = e.clipboardData.getData("text");
     const value: Array<string> = data.split("");
@@ -70,7 +102,49 @@ export default function emailVerification() {
       }
       const elem: any = inputs.current[inputs.current.length - 1].current;
       elem.focus();
+      handleSubmit();
     }
+  };
+
+  const handleResend = async () => {
+    await axios.get("/auth/emailverification").catch((error) => {
+      console.log(error);
+    });
+  };
+
+  const handleSubmit = async () => {
+    var code = "";
+    for (let input of inputs.current) {
+      code += input.current.value;
+    }
+
+    if (code.length !== 6)
+      return setError("Your Verification Code is not complete");
+
+    console.log(code);
+    await axios
+      .put("/auth/emailverification/" + code)
+      .then((res) => navigate("/dashboard"))
+      .catch((error) => {
+        console.log(error);
+        if (error.toJSON().message === "Network Error")
+          return setError(errors("offline"));
+
+        switch (parseInt(error.response.status)) {
+          case 400:
+            setError(errors("emailverification.wrong"));
+            break;
+          case 401:
+            navigate("/login");
+            break;
+          case 403:
+            navigate("/dashboard");
+            break;
+          case 500:
+            setError(errors("500"));
+            break;
+        }
+      });
   };
 
   return (
@@ -83,9 +157,11 @@ export default function emailVerification() {
             <Heading>{t("email_verification")}</Heading>
             <QuestionContainer>
               <Question>{t("nothing_received")}</Question>
-              <QuestionLink to="/login">{t("resend")}</QuestionLink>
+              <QuestionButton onClick={handleResend}>
+                {t("resend")}
+              </QuestionButton>
             </QuestionContainer>
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <Error>{error}</Error>}
             <InputContainer>
               <CodeInput ref={inputs.current[0]} />
               <CodeInput ref={inputs.current[1]} />
@@ -107,6 +183,7 @@ export default function emailVerification() {
               primary
               text={common("confirm")}
               style={{ float: "right", marginTop: "25px" }}
+              onClick={handleSubmit}
             />
           </FormContainer>
         </LeftContent>
@@ -203,6 +280,7 @@ const QuestionContainer = styled.div`
   flex-direction: row;
   flex-wrap: nowrap;
   align-items: center;
+  justify-content: flex-start;
   gap: 5px;
 `;
 
@@ -213,6 +291,17 @@ const Question = styled.span`
 const QuestionLink = styled(Link)`
   font-size: 11px;
   color: blue;
+`;
+
+const QuestionButton = styled.span`
+  font-size: 11px;
+  color: blue;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:active {
+    scale: 98%;
+  }
 `;
 
 const InputContainer = styled.div`

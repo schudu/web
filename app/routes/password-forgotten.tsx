@@ -1,14 +1,15 @@
 import { useTranslation } from "react-i18next";
 import { MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
+import { useNavigate } from "@remix-run/react";
+import { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 import Button from "~/components/Button";
 import NavBar from "~/components/homepage/NavBar";
 import Input from "~/components/Input";
-import { useState } from "react";
 import TypeCheck from "~/services/typeCheck";
-import axios from "axios";
+import { Error } from "~/styles/Globalstyles";
 
 export const meta: MetaFunction = () => ({
   title: "Password Forgotten - Schudu",
@@ -23,14 +24,17 @@ export const meta: MetaFunction = () => ({
 
 export default function passwordForgotten() {
   let { t } = useTranslation("account");
+  let { t: errors } = useTranslation("error");
   let { t: common } = useTranslation();
 
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState<string>("");
-  const [error, setError] = useState<string>("");
+  const [error, setError] = useState<{ global: string; email: string }>({});
   const [sent, setSent] = useState<boolean>(false);
 
-  const handleInputError = (error: { where: string; error: string }) => {
-    setError(t(`errors.resetpassword.${error.where}.${error.error}`));
+  const handleInputError = (err: { where: string; error: string }) => {
+    setError({ ...error, email: errors(`${err.where}.${err.error}`) });
   };
 
   const handleSubmit = () => {
@@ -44,24 +48,23 @@ export default function passwordForgotten() {
         setSent(true);
         console.log(res);
       })
-      .catch((error) => {
-        console.log(error);
-        if (error.toJSON().message === "Network Error")
-          return setError(
-            "Probably you are Offline. Please check your Internet connection!"
-          );
+      .catch((err) => {
+        console.log(err);
+        if (err.toJSON().message === "Network Error")
+          return setError({ ...error, global: errors("offline") });
 
-        switch (parseInt(error.response.status)) {
+        switch (parseInt(err.response.status)) {
           case 400:
-            setError(
-              t(`errors.resetpassword.${error.body.where}.${error.body.error}`)
-            );
+            setError({
+              ...error,
+              email: errors(`${err.body.where}.${err.body.error}`),
+            });
             break;
-          case 401:
-            setError(t("errors.resetpassword.autherized"));
+          case 403:
+            navigate("/dashboard");
             break;
           case 500:
-            setError(t("errors.500"));
+            setError({ ...error, global: errors("500") });
             break;
         }
       });
@@ -79,6 +82,7 @@ export default function passwordForgotten() {
             <PreHeading>{t("not_good")}</PreHeading>
             <Heading>{t("forgot_password")}</Heading>
             <ResetDescription>{t("forgot_description")}</ResetDescription>
+            {error.global && <Error>{error.global}</Error>}
             {!sent ? (
               <>
                 <Input
@@ -86,9 +90,9 @@ export default function passwordForgotten() {
                   value={email}
                   onChange={(e: any) => {
                     setEmail(e.target.value);
-                    setError("");
+                    setError({ ...error, email: "" });
                   }}
-                  error={error}
+                  error={error.email}
                   style={{ marginTop: "25px" }}
                 />
                 <Button
@@ -209,5 +213,5 @@ const InputContainer = styled.div`
 `;
 
 const EmailSent = styled.p`
-  margin-top: 25px;
+  margin: 25px 0;
 `;

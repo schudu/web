@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { LoaderFunction, MetaFunction } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData, useNavigate } from "@remix-run/react";
 import styled from "styled-components";
 import axios from "axios";
 
@@ -28,9 +28,11 @@ export const loader: LoaderFunction = ({ params }) => {
 
 export default function passwordForgotten() {
   let { t } = useTranslation("account");
+  let { t: errors } = useTranslation("error");
   let { t: common } = useTranslation();
 
   const code = useLoaderData();
+  const navigate = useNavigate();
 
   const [resetted, setResetted] = useState<boolean>(false);
   const [password, setPassword] = useState<string>("");
@@ -42,35 +44,49 @@ export default function passwordForgotten() {
   }>({});
 
   useEffect(() => {
-    axios.get("/auth/resetpassword/" + code).catch((error) => {
-      if (error.toJSON().message === "Network Error")
+    console.log("hi");
+    axios.get("/auth/resetpassword/" + code).catch((err) => {
+      if (err.toJSON().message === "Network Error")
         return setError({
           ...error,
-          general: common("errors.offline"),
+          general: errors("offline"),
         });
 
-      setError({ ...error, general: t("errors.resetpassword.invalid_id") });
+      switch (parseInt(err.response.status)) {
+        case 400:
+          setError({ ...error, general: errors("resetpassword.invalid_id") });
+          break;
+        case 403:
+          navigate("/dashboard");
+          break;
+        case 500:
+          setError(errors("500"));
+          break;
+      }
     });
   }, []);
 
   const handlePasswordConfirm = () => {
-    if (password != passwordConf)
-      setError({ ...error, passwordConf: "Passwords do not match" });
+    if (password != passwordConf) {
+      setError({ ...error, passwordConf: errors("passwordConf.notEquals") });
+      return false;
+    }
+    return true;
   };
 
   const handleInputError = (
-    errors: Array<{ where: string; error: string } | undefined>
+    errorr: Array<{ where: string; error: string } | undefined>
   ) => {
     var err = { ...error };
-    for (let er of errors) {
+    for (let er of errorr) {
       if (!er) continue;
-      err[er.where] = t(`errors.resetpassword.${er.where}.${er.error}`);
+      err[er.where] = errors(`${er.where}.${er.error}`);
     }
     setError(err);
   };
 
   const handleReset = () => {
-    handlePasswordConfirm();
+    if (!handlePasswordConfirm()) return;
 
     let error = [];
     error.push(new TypeCheck(password).isPassword());
@@ -87,14 +103,24 @@ export default function passwordForgotten() {
         password,
       })
       .then((res) => setResetted(true))
-      .catch((error) => {
-        if (error.toJSON().message === "Network Error")
+      .catch((err) => {
+        if (err.toJSON().message === "Network Error")
           return setError({
             ...error,
-            general: common("errors.offline"),
+            general: errors("offline"),
           });
 
-        setError({ ...error, general: t("errors.resetpassword.invalid_id") });
+        switch (parseInt(err.response.status)) {
+          case 400:
+            handleInputError([err.response.data]);
+            break;
+          case 403:
+            navigate("/dashboard");
+            break;
+          case 500:
+            setError(errors("500"));
+            break;
+        }
       });
   };
 
@@ -109,15 +135,16 @@ export default function passwordForgotten() {
           <FormContainer>
             <PreHeading>{t("not_good")}</PreHeading>
             <Heading>{t("forgot_password")}</Heading>
-            <ResetDescription>{t("forgot_description")}</ResetDescription>
-            {error.general && <Error>{error.general}</Error>}
             {error.general && (
-              <Button
-                primary
-                text={common("reset")}
-                link="/password-forgotten"
-                style={{ float: "left", marginTop: "10px" }}
-              />
+              <>
+                <Error>{error.general}</Error>
+                <Button
+                  primary
+                  text={common("reset")}
+                  link="/password-forgotten"
+                  style={{ float: "left", marginTop: "10px" }}
+                />
+              </>
             )}
             {!error.general && !resetted && (
               <>
@@ -281,5 +308,6 @@ const PasswordRequirements = styled.div`
 `;
 
 const PassRequItem = styled.small`
-  color: ${({ color }) => (color ? "var(--green)" : "var(--light)")};
+  color: ${({ color }: { color: boolean }) =>
+    color ? "var(--green)" : "var(--light)"};
 `;

@@ -1,10 +1,13 @@
 import { MetaFunction } from "@remix-run/node";
-import { Link } from "@remix-run/react";
-import { useState } from "react";
+import { Link, useNavigate } from "@remix-run/react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import TypeCheck from "~/services/typeCheck";
+import { TiTick, TiTickOutline } from "react-icons/ti";
+import { FcCancel } from "react-icons/fc";
 
 import styled from "styled-components";
+import { Error } from "~/styles/Globalstyles";
 import Button from "~/components/Button";
 import NavBar from "~/components/homepage/NavBar";
 import Input from "~/components/Input";
@@ -23,7 +26,10 @@ export const meta: MetaFunction = () => ({
 
 export default function register() {
   let { t } = useTranslation("account");
+  let { t: errors } = useTranslation("error");
   let { t: common } = useTranslation();
+
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -33,28 +39,115 @@ export default function register() {
   const [passwordConf, setPasswordConf] = useState<string>("");
   const [error, setError] = useState<object>({});
   const [secondPart, setSecondPart] = useState<boolean>(false);
+  const [usernameAvailable, setUsernameAvailable] = useState<boolean>(null);
+  const [emailAvailable, setEmailAvailable] = useState<boolean>(null);
 
-  const handleInputError = (
-    errors: Array<{ where: string; error: string } | undefined>
-  ) => {
-    var err = { ...error };
-    for (let er of errors) {
-      if (!er) continue;
-      err[er.where] = t(`errors.register.${er.where}.${er.error}`);
-    }
-    setError(err);
+  useEffect(() => {
+    axios
+      .get("/whoami")
+      .then((res) => navigate("/dashboard"))
+      .catch((error) => {
+        console.log(error);
+        if (error.toJSON().message === "Network Error")
+          return setError({
+            ...error,
+            global: errors("offline"),
+          });
+      });
+  }, []);
+
+  const handleUsernameCheck = () => {
+    let error = [new TypeCheck(username).isUsername()];
+    error = error.filter((e) => e != null);
+
+    if (error.length) return handleInputError(error);
+
+    axios
+      .get("/auth/available/username", { params: { username } })
+      .then((res) => {
+        setUsernameAvailable(true);
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.toJSON().message === "Network Error")
+          return setError({
+            ...error,
+            global: error("offline"),
+          });
+
+        switch (parseInt(error.response.status)) {
+          case 400:
+            setUsernameAvailable(false);
+            break;
+          case 409:
+            setUsernameAvailable(false);
+            break;
+          case 500:
+            setError(errors("500"));
+            break;
+        }
+      });
   };
 
-  const handleEmailChange = () => {
+  const handleEmailCheck = () => {
     let error = [new TypeCheck(email).isEmail()];
     error = error.filter((e) => e != null);
 
     if (error.length) return handleInputError(error);
+
+    axios
+      .get("/auth/available/email", { params: { email } })
+      .then((res) => {
+        setEmailAvailable(true);
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.toJSON().message === "Network Error")
+          return setError({
+            ...error,
+            global: error("offline"),
+          });
+
+        switch (parseInt(error.response.status)) {
+          case 400:
+            setEmailAvailable(false);
+            break;
+          case 409:
+            setEmailAvailable(false);
+            break;
+          case 500:
+            setError(errors("500"));
+            break;
+        }
+      });
+  };
+
+  const handleInputError = (
+    errs: Array<{ where: string; error: string } | undefined>
+  ) => {
+    var err = { ...error };
+    for (let er of errs) {
+      if (!er) continue;
+
+      if (["firstname", "lastname", "username"].includes(er.where))
+        setSecondPart(false);
+
+      if (er.where === "username" && er.error === "used") {
+        setUsernameAvailable(false);
+        continue;
+      } else if (er.where === "email" && er.error === "used") {
+        setEmailAvailable(false);
+        continue;
+      }
+
+      err[er.where] = errors(`${er.where}.${er.error}`);
+    }
+    setError(err);
   };
 
   const handlePasswordConfirm = () => {
     if (password != passwordConf)
-      setError({ ...error, passwordConf: "Passwords do not match" });
+      setError({ ...error, passwordConf: errors("passwordConf.notEquals") });
   };
 
   const handleNameCheck = () => {
@@ -90,7 +183,6 @@ export default function register() {
 
     if (error.length) return handleInputError(error);
 
-    return;
     axios
       .post("/auth/register", {
         firstname,
@@ -99,9 +191,31 @@ export default function register() {
         password,
         username,
       })
-      .then((res) => console.log(res))
+      .then((res) => {
+        navigate("/emailverification");
+      })
       .catch((error) => {
-        console.log(error);
+        if (error.toJSON().message === "Network Error")
+          return setError({
+            ...error,
+            global: error("offline"),
+          });
+
+        switch (parseInt(error.response.status)) {
+          case 400:
+          case 409:
+            handleInputError([error.response.data]);
+            break;
+          case 403:
+            navigate("/dashboard");
+            break;
+          case 415:
+            setError({ ...error, global: errors("415") });
+            break;
+          case 500:
+            setError(errors("500"));
+            break;
+        }
       });
   };
 
@@ -117,6 +231,7 @@ export default function register() {
               <LoginQuestion>{t("already_user")}</LoginQuestion>
               <LoginLink to="/login">{common("login")}</LoginLink>
             </LoginContainer>
+            {error.global && <Error>{error.global}</Error>}
             <InputContainer>
               {!secondPart ? (
                 <>
@@ -127,12 +242,19 @@ export default function register() {
                       setUsername(e.target.value);
                       setError({ ...error, username: "" });
                     }}
+                    onBlur={handleUsernameCheck}
+                    endIcon={
+                      (usernameAvailable === true && <Available size={24} />) ||
+                      (usernameAvailable === false && (
+                        <NotAvailable size={24} />
+                      )) || <></>
+                    }
                     error={error.username}
+                    autofocus
                   />
                   <NameContainer>
                     <Input
                       heading={common("firstname")}
-                      hint={t("only_teacher_can_see")}
                       value={firstname}
                       onChange={(e: any) => {
                         setFirstname(e.target.value);
@@ -150,6 +272,7 @@ export default function register() {
                       error={error.lastname}
                     />
                   </NameContainer>
+                  <NameHint>{t("only_teacher_can_see")}</NameHint>
                 </>
               ) : (
                 <>
@@ -160,9 +283,16 @@ export default function register() {
                       setEmail(e.target.value);
                       setError({ ...error, email: "" });
                     }}
-                    onBlur={handleEmailChange}
+                    onBlur={handleEmailCheck}
+                    endIcon={
+                      (emailAvailable === true && <Available size={24} />) ||
+                      (emailAvailable === false && (
+                        <NotAvailable size={24} />
+                      )) || <></>
+                    }
                     error={error.email}
                     type="email"
+                    autofocus
                   />
                   <div>
                     <Input
@@ -211,12 +341,20 @@ export default function register() {
                 </>
               )}
             </InputContainer>
-            <Button
-              primary
-              text={secondPart ? common("register") : common("next")}
-              onClick={secondPart ? handleRegister : handleNameCheck}
-              style={{ float: "right", marginTop: "10px" }}
-            />
+            <ButtonContainer>
+              <Button
+                primary
+                text={secondPart ? common("register") : common("next")}
+                onClick={secondPart ? handleRegister : handleNameCheck}
+              />
+              {secondPart && (
+                <Button
+                  primary
+                  text={common("back")}
+                  onClick={() => setSecondPart(false)}
+                />
+              )}
+            </ButtonContainer>
           </FormContainer>
         </LeftContent>
         <RightContent>
@@ -315,11 +453,11 @@ const LoginContainer = styled.div`
 `;
 
 const LoginQuestion = styled.span`
-  font-size: 11px;
+  font-size: 12px;
 `;
 
 const LoginLink = styled(Link)`
-  font-size: 11px;
+  font-size: 12px;
   color: blue;
 `;
 
@@ -330,10 +468,27 @@ const InputContainer = styled.div`
   margin-top: 25px;
 `;
 
+const ButtonContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row-reverse;
+  margin-top: 10px;
+`;
+
 const NameContainer = styled.div`
   display: flex;
   flex-direction: row;
   gap: 25px;
+
+  & > * {
+    width: 100%;
+  }
+`;
+
+const NameHint = styled.small`
+  color: var(--light);
+  font-size: 12px;
   margin-bottom: 25px;
 `;
 
@@ -347,4 +502,13 @@ const PasswordRequirements = styled.div`
 
 const PassRequItem = styled.small`
   color: ${({ color }) => (color ? "var(--green)" : "var(--light)")};
+`;
+
+const Available = styled(TiTickOutline)`
+  color: var(--green);
+  height: 100%;
+`;
+
+const NotAvailable = styled(FcCancel)`
+  height: 100%;
 `;

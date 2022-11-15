@@ -34,7 +34,7 @@ export const meta: MetaFunction = () => ({
 
 type LoaderData = { locale: string };
 
-export let loader: LoaderFunction = async ({ request }: any) => {
+export let loader: LoaderFunction = async ({ request }) => {
   const cookieHeader = request.headers.get("Cookie");
   let locale =
     (await userLanguage.parse(cookieHeader)) ||
@@ -63,6 +63,7 @@ export default function App() {
   let { locale } = loaderData;
 
   axios.defaults.baseURL = api || "";
+  axios.defaults.withCredentials = true;
 
   let { i18n } = useTranslation();
 

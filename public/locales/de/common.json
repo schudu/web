@@ -15,9 +15,13 @@
   "lastname": "Nachname",
 
   "next": "Weiter",
+  "back": "Zurück",
   "change": "Ändern",
 
-  "errors": {
-    "offline": "Du bist Offline. Bitte überprüfe deine Internetverbindung."
-  }
+  "dashboard": "Armaturenbrett",
+  "homework": "Hausaufgaben",
+  "calendar": "Kalender",
+  "quizzes": "Quizze",
+  "files": "Datein",
+  "profile": "Profil"
 }
