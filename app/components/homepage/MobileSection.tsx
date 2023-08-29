@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { FaGooglePlay, FaAppStoreIos } from "react-icons/fa";
+import { useInView } from "react-intersection-observer";
 
 import { InnerLayout } from "~/styles/Layouts";
 
@@ -10,9 +11,12 @@ export let handle = {
 
 export default function MobileSection() {
   let { t } = useTranslation("homepage");
+
+  const { ref, inView, entry } = useInView({ triggerOnce: true });
+
   return (
     <InnerLayout>
-      <MobileContainer id="mobile">
+      <MobileContainer id="mobile" ref={ref} className={inView ? "" : "fade"}>
         <LeftContent>
           <PhoneImage src="/images/phone.png" />
         </LeftContent>
@@ -46,6 +50,16 @@ const MobileContainer = styled("section")`
   grid-template-columns: repeat(2, 1fr);
   justify-content: center;
   grid-gap: 2rem;
+
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.4s ease;
+
+  &.fade {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+
   @media screen and (max-width: 845px) {
     grid-template-columns: repeat(1, 1fr);
   }

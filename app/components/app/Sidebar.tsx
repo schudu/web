@@ -10,7 +10,7 @@ import {
 } from "react-icons/tb";
 import { BsJournalBookmarkFill } from "react-icons/bs";
 import { MdOutlineQuiz } from "react-icons/md";
-import { HiOutlineFolder } from "react-icons/hi";
+import { HiOutlineFolder, HiOutlineLogout } from "react-icons/hi";
 import { CgProfile } from "react-icons/cg";
 import { NavLink, useNavigate } from "@remix-run/react";
 
@@ -31,7 +31,6 @@ export default function Sidebar() {
         setUser(res.data);
       })
       .catch((err) => {
-        console.log(err);
         if (err.toJSON().message === "Network Error") return setOffline(true);
 
         switch (parseInt(err.response.status)) {
@@ -43,6 +42,16 @@ export default function Sidebar() {
         }
       });
   }, []);
+
+  const handleLogout = () => {
+    console.log("hallo");
+    axios
+      .get("/auth/logout")
+      .then((res) => {
+        navigate("/login");
+      })
+      .catch((err) => console.log("An Error happened"));
+  };
 
   return (
     <SidebarContainer open={open}>
@@ -116,7 +125,7 @@ export default function Sidebar() {
           </ProfileUserInfoContainer>
         </ProfileUserInfoWrapper>
         <small>{user.email}</small>
-        <ClassHeading>Classes:</ClassHeading>
+        <ClassHeading>{common("classes")}:</ClassHeading>
         <ClassesContainer>
           <Class className="selected">
             <ClassIcon size={18} />
@@ -133,8 +142,12 @@ export default function Sidebar() {
         </ClassesContainer>
         <SettingContainer to="settings" onClick={() => setProfileOpen(false)}>
           <TbSettings size={20} />
-          Settings
+          {common("settings")}
         </SettingContainer>
+        <LogoutContainer onClick={handleLogout}>
+          <HiOutlineLogout size={20} />
+          {common("logout")}
+        </LogoutContainer>
       </ProfilePopup>
     </SidebarContainer>
   );
@@ -342,5 +355,15 @@ const SettingContainer = styled(NavLink)`
   align-items: center;
   gap: 5px;
   margin-top: 20px;
+  cursor: pointer;
+`;
+
+const LogoutContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
   cursor: pointer;
 `;

@@ -6,13 +6,13 @@ import styled from "styled-components";
 import Sidebar from "~/components/app/Sidebar";
 
 export const meta: MetaFunction = () => ({
-  title: "Email Verification - Schudu",
-  "og:title": `Email Verification`,
-  "og:url": "/emailverification",
-  description: `Register now to manage Homework, Dates and Learningmaterial for the whole Class!`,
-  "og:description": `Register now to manage Homework, Dates and Learningmaterial for the whole Class!`,
-  "twitter:title": `Email Verification`,
-  "twitter:description": `Register now to manage Homework, Dates and Learningmaterial for the whole Class!`,
+  title: "Schudu",
+  "og:title": `Schudu`,
+  "og:url": "/dashboard",
+  description: `Schudu`,
+  "og:description": `Schudu`,
+  "twitter:title": `Schudu`,
+  "twitter:description": `Schudu`,
   "twitter:card": "summary",
 });
 

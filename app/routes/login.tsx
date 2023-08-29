@@ -40,7 +40,6 @@ export default function login() {
       .get("/whoami")
       .then((res) => navigate("/dashboard"))
       .catch((err) => {
-        console.log(err);
         if (err.toJSON().message === "Network Error")
           return setError(errors("offline"));
 
@@ -72,7 +71,6 @@ export default function login() {
         navigate("/dashboard");
       })
       .catch((err) => {
-        console.log(err);
         if (err.toJSON().message === "Network Error")
           return setError(errors("offline"));
 
@@ -112,13 +110,19 @@ export default function login() {
               <Input
                 heading={`${common("email")} / ${common("username")}`}
                 value={account}
-                onChange={(e: any) => setAccount(e.target.value)}
+                onChange={(e: any) => {
+                  setAccount(e.target.value);
+                  setError("");
+                }}
               />
               <Input
                 heading={common("password")}
                 value={password}
                 type="password"
-                onChange={(e: any) => setPassword(e.target.value)}
+                onChange={(e: any) => {
+                  setPassword(e.target.value);
+                  setError("");
+                }}
               />
             </InputContainer>
             <RememberContainer onClick={() => setRemember(!remember)}>

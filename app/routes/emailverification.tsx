@@ -39,7 +39,6 @@ export default function emailVerification() {
         if (res.data.emailVerified) navigate("/dashboard");
       })
       .catch((err) => {
-        console.log(err);
         if (err.toJSON().message === "Network Error")
           return setError(errors("offline"));
 

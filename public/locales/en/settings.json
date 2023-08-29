@@ -1,0 +1,19 @@
+{
+  "personal": "Personal",
+  "my_details": "My Details",
+  "security": "Security",
+  "notifications": "Notifications",
+
+  "workspace": "Workspace",
+  "design": "Design",
+
+  "classes": {
+    "new": {
+      "school_information": "This will make managing holidays and School Events easier.",
+      "new": "New",
+      "new_class": "new Class",
+      "class_designation": "Class-Designation",
+      "class_designation_description": "Something that doesn't change over the years."
+    }
+  }
+}

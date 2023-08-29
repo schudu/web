@@ -49,7 +49,6 @@ export default function passwordForgotten() {
         console.log(res);
       })
       .catch((err) => {
-        console.log(err);
         if (err.toJSON().message === "Network Error")
           return setError({ ...error, global: errors("offline") });
 

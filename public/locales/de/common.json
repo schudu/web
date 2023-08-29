@@ -17,11 +17,16 @@
   "next": "Weiter",
   "back": "Zurück",
   "change": "Ändern",
+  "create_new": "Neue Erstellen",
 
   "dashboard": "Armaturenbrett",
   "homework": "Hausaufgaben",
   "calendar": "Kalender",
   "quizzes": "Quizze",
   "files": "Datein",
-  "profile": "Profil"
+  "profile": "Profil",
+  "settings": "Einstellungen",
+  "classes": "Klassen",
+
+  "logout": "Abmelden"
 }

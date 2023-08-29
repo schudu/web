@@ -11,8 +11,8 @@ const GlobalStyles = createGlobalStyle`
     --yellow: #FFBE00;
     --blue: #0068E1;
     --green: #00b800;
-    --error: 255, 0, 0;
-    --warning: 206, 164, 0;
+    --error: rgb(255, 0, 0);
+    --warning: rgb(206, 164, 0);
   }
 
   *{
@@ -22,6 +22,10 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
     font-family: 'Nunito', sans-serif;
     text-decoration: none;
+  }
+
+  *:focus{
+    outline: none;
   }
 
   html{

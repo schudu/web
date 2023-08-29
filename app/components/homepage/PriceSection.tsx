@@ -1,8 +1,10 @@
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import { useInView } from "react-intersection-observer";
 
 import { InnerLayout } from "~/styles/Layouts";
 import PriceCard from "./PriceCard";
+import { useState } from "react";
 
 export let handle = {
   i18n: "homepage",
@@ -11,9 +13,12 @@ export let handle = {
 export default function PriceSection() {
   let { t } = useTranslation("homepage");
   let { t: common } = useTranslation();
+
+  const { ref, inView, entry } = useInView({ triggerOnce: true });
+
   return (
     <InnerLayout>
-      <PriceContainer id="pricing">
+      <PriceContainer id="pricing" ref={ref} className={inView ? "" : "fade"}>
         <PriceCard
           name={t("pricing.free.name")}
           price={0}
@@ -90,6 +95,14 @@ export default function PriceSection() {
 const PriceContainer = styled("section")`
   display: flex;
   justify-content: space-evenly;
+  opacity: 1;
+  transform: translateY(0%);
+  transition: all 0.4s ease;
+
+  &.fade {
+    opacity: 0;
+    transform: translateY(50px);
+  }
 
   @media screen and (max-width: 1200px) {
     justify-content: space-between;

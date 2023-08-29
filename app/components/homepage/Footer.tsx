@@ -1,9 +1,12 @@
 import { Link } from "@remix-run/react";
 import styled from "styled-components";
+import { useInView } from "react-intersection-observer";
 
 export default function Footer() {
+  const { ref, inView, entry } = useInView({ triggerOnce: true });
+
   return (
-    <FooterBackground>
+    <FooterBackground ref={ref} className={inView ? "" : "fade"}>
       <FooterContainer>
         <LeftContent>
           <FooterLinkList>
@@ -35,17 +38,26 @@ export default function Footer() {
 }
 
 const FooterBackground = styled("footer")`
-  width: 100vw;
+  width: 100%;
   height: 80vh;
   background-image: url("/images/background_v1_wave.png");
   background-position-y: 100%;
   background-repeat: no-repeat;
   background-size: cover;
-  transform: rotate(180deg);
+  rotate: 180deg;
+
+  opacity: 1;
+  transform: translateY(0%);
+  transition: all 0.4s ease;
+
+  &.fade {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
 `;
 
 const FooterContainer = styled("div")`
-  transform: rotate(180deg);
+  rotate: 180deg;
   height: 100%;
   width: 100%;
   display: flex;

@@ -17,11 +17,16 @@
   "next": "Next",
   "back": "Back",
   "change": "Change",
+  "create_new": "Create New",
 
   "dashboard": "Dashboard",
   "homework": "Homework",
   "calendar": "Kalender",
   "quizzes": "Quizzes",
   "files": "Files",
-  "profile": "Profile"
+  "profile": "Profile",
+  "settings": "Settings",
+  "classes": "Classes",
+
+  "logout": "Logout"
 }

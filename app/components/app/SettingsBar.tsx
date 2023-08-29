@@ -11,6 +11,7 @@ import { IoNotificationsOutline } from "react-icons/io5";
 
 export default function SettingsBar() {
   let { t: common } = useTranslation();
+  let { t } = useTranslation("settings");
 
   const navigate = useNavigate();
 
@@ -42,15 +43,15 @@ export default function SettingsBar() {
     <>
       <SidebarContainer open={open}>
         <SettingsBanner src="https://cdn.pixabay.com/photo/2017/12/01/03/17/nature-2990060_960_720.jpg" />
-        <SettingsHeader>Settings</SettingsHeader>
+        <SettingsHeader>{common("settings")}</SettingsHeader>
         {offline && <OfflineError>Offline</OfflineError>}
         <SidebarWrapper>
-          <NavHeading>Personal</NavHeading>
+          <NavHeading>{t("personal")}</NavHeading>
           <NavItem to="details">
             <NavItemIcon>
               <CgProfile size={24} />
             </NavItemIcon>
-            <NavItemName visible={open}>My details</NavItemName>
+            <NavItemName visible={open}>{t("my_details")}</NavItemName>
           </NavItem>
           <NavItem
             to="profile"
@@ -59,7 +60,7 @@ export default function SettingsBar() {
             <NavItemIcon>
               <RiProfileLine size={24} />
             </NavItemIcon>
-            <NavItemName visible={open}>Profile</NavItemName>
+            <NavItemName visible={open}>{common("profile")}</NavItemName>
           </NavItem>
           <NavItem
             to="security"
@@ -68,7 +69,7 @@ export default function SettingsBar() {
             <NavItemIcon>
               <GrShieldSecurity size={24} />
             </NavItemIcon>
-            <NavItemName visible={open}>Security</NavItemName>
+            <NavItemName visible={open}>{t("security")}</NavItemName>
           </NavItem>
           <NavItem
             to="notifications"
@@ -77,18 +78,26 @@ export default function SettingsBar() {
             <NavItemIcon>
               <IoNotificationsOutline size={24} />
             </NavItemIcon>
-            <NavItemName visible={open}>Notifications</NavItemName>
+            <NavItemName visible={open}>{t("notifications")}</NavItemName>
           </NavItem>
-          <NavHeading>Workspace</NavHeading>
+          <NavHeading>{t("workspace")}</NavHeading>
           <NavItem
-            to="classes"
+            to="class"
             className={({ isActive }) => (isActive ? "active" : "")}
           >
             <NavItemIcon>
               <MdOutlineClass size={24} />
             </NavItemIcon>
-            <NavItemName visible={open}>Classes</NavItemName>
+            <NavItemName visible={open}>{common("classes")}</NavItemName>
           </NavItem>
+          <ClassList>
+            <ClassItem
+              to="class/new"
+              className={({ isActive }) => (isActive ? "active" : "")}
+            >
+              {common("create_new")}
+            </ClassItem>
+          </ClassList>
           <NavItem
             to="design"
             className={({ isActive }) => (isActive ? "active" : "")}
@@ -96,7 +105,7 @@ export default function SettingsBar() {
             <NavItemIcon>
               <MdOutlineDesignServices size={24} />
             </NavItemIcon>
-            <NavItemName visible={open}>Design</NavItemName>
+            <NavItemName visible={open}>{t("design")}</NavItemName>
           </NavItem>
         </SidebarWrapper>
       </SidebarContainer>
@@ -111,7 +120,8 @@ const SidebarContainer = styled.div`
   display: flex;
   flex-direction: column;
   border-left: 2px solid var(--orange);
-  filter: drop-shadow(5px 2px 4px rgba(0, 0, 0, 0.25));
+  border-right: 2px solid var(--orange);
+  /* filter: drop-shadow(5px 2px 4px rgba(0, 0, 0, 0.25)); */
   flex-shrink: 0;
   transition: all 0.2s ease;
 `;
@@ -155,7 +165,7 @@ const SidebarWrapper = styled.div`
   flex-direction: column;
   gap: 15px;
   padding: 15px;
-  background-color: var(--yellow);
+  /* background-color: var(--yellow); */
   transition: all 0.2s ease;
 `;
 
@@ -198,4 +208,27 @@ const NavItemName = styled.div`
   font-size: 18px;
   opacity: ${({ visible }: { visible: boolean }) => (visible ? "1" : "0")};
   transition: all 0.4s ease;
+`;
+
+const ClassList = styled.div`
+  width: 100%;
+  padding-left: 30px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ClassItem = styled(NavLink)`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 15px;
+  padding: 10px;
+  border-radius: 15px;
+  transition: all 0.4s ease;
+
+  &:hover,
+  &.active {
+    background-color: var(--orange);
+  }
 `;

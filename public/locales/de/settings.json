@@ -1,0 +1,19 @@
+{
+  "personal": "Personal",
+  "my_details": "Meine Details",
+  "security": "Sicherheit",
+  "notifications": "Benachrichtigungen",
+
+  "workspace": "Arbeitsplace",
+  "design": "Gestaltung",
+
+  "classes": {
+    "new": {
+      "school_information": "Dies macht das Verwalten von Freien und Event Tagen einfacher.",
+      "new": "Neue",
+      "new_class": "Neue Klasse",
+      "class_designation": "Klassenbezeichnung",
+      "class_designation_description": "Etwas allgemeines was sich über die Jahre nicht ändert."
+    }
+  }
+}

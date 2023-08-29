@@ -14,13 +14,13 @@ export default function Header() {
 }
 
 const HeaderContainer = styled("header")`
-  width: 100vw;
+  width: 100%;
   height: 100%;
   padding-bottom: 8rem;
 `;
 
 const Background = styled("div")`
-  width: 100vw;
+  width: 100%;
   height: 50vw;
   max-height: 100vh;
   min-height: 550px;

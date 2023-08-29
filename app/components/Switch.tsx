@@ -25,6 +25,7 @@ const SwitchContainer = styled.div`
   background-color: ${({ active }: { active: boolean }) =>
     active ? "var(--green)" : "var(--light)"};
   align-items: center;
+  cursor: pointer;
   transition: all 0.4s ease;
 `;
 
